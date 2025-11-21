@@ -1,0 +1,10 @@
+# Sample personal Git config
+# Copy this to git/.gitconfig.personal and customize
+
+[user]
+    name = Nicolas Marino      
+    email = nico@gmail.com
+
+[core]
+    # Use different SSH key for personal projects
+    sshCommand = "ssh -i ~/.ssh/id_ed25519_personal"

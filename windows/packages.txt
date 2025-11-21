@@ -1,0 +1,41 @@
+# Windows dotfiles package list
+# Install with: choco install -y $(Get-Content windows/packages.txt)
+
+# Development Essentials
+git
+gh
+nodejs
+nvm-windows
+
+# Editors & IDEs
+vscode
+
+# CLI Tools
+fzf
+ripgrep
+fd
+bat
+jq
+wget
+curl
+
+# Compression
+7zip
+
+# Terminals
+windows-terminal
+microsoft-windows-terminal
+
+# Databases
+postgresql
+redis
+
+# DevOps
+docker-desktop
+
+# Communication
+discord
+
+# Utilities
+everything
+powertoys

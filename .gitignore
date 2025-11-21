@@ -1,0 +1,10 @@
+# Dotfiles Repository
+
+.DS_Store
+*.log
+.dotfiles_backup/
+
+# Machine-specific configs (customize per machine, don't commit)
+git/.gitconfig.local
+git/.gitconfig.work
+git/.gitconfig.personal

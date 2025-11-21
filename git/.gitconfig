@@ -1,0 +1,153 @@
+[user]
+    # Update with your information
+    name = Nicolas Marino
+    email = your@email.com
+
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore_global
+    autocrlf = input
+    quotepath = false
+    pager = less -FRX
+
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+
+[alias]
+    # Status
+    st = status
+    s = status -s
+    
+    # Add
+    a = add
+    aa = add --all
+    
+    # Commit
+    ci = commit
+    cm = commit -m
+    ca = commit --amend
+    can = commit --amend --no-edit
+    
+    # Checkout
+    co = checkout
+    cob = checkout -b
+    
+    # Branch
+    br = branch
+    bra = branch -a
+    brd = branch -d
+    brD = branch -D
+    
+    # Diff
+    df = diff
+    dfs = diff --staged
+    dfw = diff --word-diff
+    
+    # Log
+    l = log --oneline
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    last = log -1 HEAD --stat
+    visual = log --graph --oneline --all --decorate
+    
+    # Pull/Push
+    pl = pull
+    ps = push
+    psf = push --force-with-lease
+    psu = push -u origin HEAD
+    
+    # Stash
+    sta = stash
+    stp = stash pop
+    stl = stash list
+    sts = stash show -p
+    
+    # Reset/Revert
+    unstage = reset HEAD --
+    undo = reset --soft HEAD^
+    amend = commit --amend --no-edit
+    
+    # Cleanup
+    cleanup = !git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d
+    
+    # Show
+    show-files = show --pretty="" --name-only
+    
+    # Utilities
+    aliases = config --get-regexp alias
+    contributors = shortlog --summary --numbered
+    tags = tag -l
+    remotes = remote -v
+    find = !git ls-files | grep -i
+    grep = grep -Ii
+    whoami = !git config user.name && git config user.email
+    uncommit = reset --soft HEAD~1
+
+[pull]
+    rebase = false
+
+[push]
+    default = current
+    followTags = true
+
+[merge]
+    conflictstyle = diff3
+    tool = vimdiff
+
+[diff]
+    algorithm = patience
+    renames = copies
+    tool = vimdiff
+
+[branch]
+    autoSetupMerge = true
+
+[credential]
+    helper = osxkeychain
+
+[init]
+    defaultBranch = main
+
+[fetch]
+    prune = true
+
+[remote "origin"]
+    prune = true
+
+[rerere]
+    enabled = true
+
+[pack]
+    threads = 0
+
+# Conditional configs based on directory
+# Work projects
+[includeIf "gitdir:~/Documents/git/work/"]
+    path = ~/Documents/git/dotfiles/git/.gitconfig.work
+
+# Personal projects  
+[includeIf "gitdir:~/Documents/git/personal/"]
+    path = ~/Documents/git/dotfiles/git/.gitconfig.personal
+
+# Default for everything else
+[includeIf "gitdir:~/Documents/git/"]
+    path = ~/Documents/git/dotfiles/git/.gitconfig.personal

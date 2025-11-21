@@ -1,0 +1,10 @@
+# Sample work Git config
+# Copy this to git/.gitconfig.work and customize
+
+[user]
+    name = Your Work Name
+    email = you@company.com
+
+[core]
+    # Use different SSH key for work
+    sshCommand = "ssh -i ~/.ssh/id_ed25519_work"

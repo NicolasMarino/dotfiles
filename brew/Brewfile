@@ -1,0 +1,65 @@
+# Development Essentials
+brew "git"
+brew "wget"
+brew "curl"
+brew "tree"
+
+# Node.js & Version Management
+brew "nvm"
+
+# Shell & Utilities
+brew "zsh"
+brew "zsh-completions"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Git Utilities  
+brew "git-lfs"
+brew "gh"
+brew "tig"
+
+# CLI Tools
+brew "htop"
+brew "jq"
+brew "fzf"
+brew "bat"
+brew "ripgrep"
+brew "fd"
+brew "eza"
+brew "tldr"
+
+# Compression
+brew "xz"
+brew "p7zip"
+
+# Databases
+brew "postgresql@15"
+brew "redis"
+brew "mysql"
+
+# DevOps
+brew "docker"
+brew "docker-compose"
+brew "terraform"
+
+# Python
+brew "python@3.11"
+
+# Utilities
+brew "imagemagick"
+brew "ffmpeg"
+brew "yt-dlp"
+brew "qrencode"
+
+# Applications
+cask "visual-studio-code"
+cask "iterm2"
+cask "google-chrome"
+cask "postman"
+cask "docker-desktop"
+cask "warp"
+cask "notion"
+
+# Fonts
+cask "font-fira-code"
+cask "font-jetbrains-mono"
