@@ -27,6 +27,8 @@ brew "ripgrep"
 brew "fd"
 brew "eza"
 brew "tldr"
+## Metadata for files
+brew "exiftool"
 
 # Compression
 brew "xz"
