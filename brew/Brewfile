@@ -47,6 +47,9 @@ brew "terraform"
 # Python
 brew "python@3.11"
 
+# Java
+brew "openjdk@17"
+
 # Utilities
 brew "imagemagick"
 brew "ffmpeg"
@@ -61,6 +64,7 @@ cask "postman"
 cask "docker-desktop"
 cask "warp"
 cask "notion"
+cask "android-studio"
 
 # Fonts
 cask "font-fira-code"

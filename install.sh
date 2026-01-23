@@ -113,6 +113,10 @@ else
     print_info "Skipping macOS settings"
 fi
 
+# VS Code Setup
+print_header "VS Code Setup"
+bash "$DOTFILES_DIR/scripts/vscode.sh"
+
 # Finish
 print_header "Installation Complete"
 

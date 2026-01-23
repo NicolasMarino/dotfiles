@@ -93,3 +93,7 @@ setopt PUSHD_SILENT
 
 # Performance
 ZSH_DISABLE_COMPFIX=true
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+

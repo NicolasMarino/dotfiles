@@ -1,0 +1,12 @@
+{
+  "editor.fontSize": 12,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "gitlens.ai.model": "vscode",
+  "remote.autoForwardPortsSource": "hybrid",
+  "geminicodeassist.displayInlineContextHint": false,
+  "workbench.iconTheme": "vscode-icons"
+}
