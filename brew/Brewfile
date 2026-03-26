@@ -46,6 +46,7 @@ brew "terraform"
 
 # Python
 brew "python@3.11"
+brew "pyenv"
 
 # Java
 brew "openjdk@17"

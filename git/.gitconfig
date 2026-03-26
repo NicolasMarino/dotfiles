@@ -1,8 +1,3 @@
-[user]
-    # Update with your information
-    name = Nicolas Marino
-    email = your@email.com
-
 [core]
     editor = vim
     excludesfile = ~/.gitignore_global
@@ -140,14 +135,12 @@
     threads = 0
 
 # Conditional configs based on directory
-# Work projects
-[includeIf "gitdir:~/Documents/git/work/"]
-    path = ~/Documents/git/dotfiles/git/.gitconfig.work
-
-# Personal projects  
-[includeIf "gitdir:~/Documents/git/personal/"]
-    path = ~/Documents/git/dotfiles/git/.gitconfig.personal
-
-# Default for everything else
+# Default for everything in ~/Documents/git (personal)
 [includeIf "gitdir:~/Documents/git/"]
     path = ~/Documents/git/dotfiles/git/.gitconfig.personal
+
+# Work projects (overrides personal for work/ subdir)
+[includeIf "gitdir:~/Documents/git/work/"]
+    path = ~/Documents/git/dotfiles/git/.gitconfig.work
+[credential "https://gitlab.com"]
+	helper = !glab auth git-credential
