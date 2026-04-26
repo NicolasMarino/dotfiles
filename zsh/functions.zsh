@@ -21,7 +21,11 @@ fnd() {
 findin() {
     [ -z "$1" ] && echo "Usage: findin <text> [dir]" && return 1
     local dir="${2:-.}"
-    grep -r "$1" "$dir" 2>/dev/null
+    if command -v rg &>/dev/null; then
+        rg "$1" "$dir"
+    else
+        grep -r "$1" "$dir" 2>/dev/null
+    fi
 }
 
 # Archives
