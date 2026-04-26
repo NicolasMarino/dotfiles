@@ -1,9 +1,9 @@
 [core]
-    editor = vim
+    editor = code --wait
     excludesfile = ~/.gitignore_global
     autocrlf = input
     quotepath = false
-    pager = less -FRX
+    pager = delta
 
 [color]
     ui = auto
@@ -98,20 +98,29 @@
     uncommit = reset --soft HEAD~1
 
 [pull]
-    rebase = false
+    rebase = true
 
 [push]
     default = current
     followTags = true
 
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
     tool = vimdiff
 
 [diff]
     algorithm = patience
     renames = copies
     tool = vimdiff
+
+[delta]
+    navigate = true
+    line-numbers = true
+    syntax-theme = Monokai Extended
+    side-by-side = true
+
+[interactive]
+    diffFilter = delta --color-only
 
 [branch]
     autoSetupMerge = true
