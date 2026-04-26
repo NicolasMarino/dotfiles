@@ -5,8 +5,11 @@
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "diffEditor.ignoreTrimWhitespace": false,
-  "gitlens.ai.model": "vscode",
   "remote.autoForwardPortsSource": "hybrid",
-  "geminicodeassist.displayInlineContextHint": false,
-  "workbench.iconTheme": "vscode-icons"
+  "workbench.iconTheme": "vscode-icons",
+  "yaml.schemas": {
+    "file:///Users/nicolasmarino/.vscode/extensions/continue.continue-1.2.22-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml"
+    ]
+  }
 }
