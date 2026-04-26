@@ -1,3 +1,7 @@
+# Taps
+tap "anomalyco/tap"
+tap "gentleman-programming/tap"
+
 # Development Essentials
 brew "git"
 brew "wget"
@@ -5,9 +9,12 @@ brew "curl"
 brew "tree"
 
 # Node.js & Version Management
+brew "node@24", link: true
 brew "nvm"
 
 # Shell & Utilities
+brew "bash"
+brew "starship"
 brew "zsh"
 brew "zsh-completions"
 brew "zsh-autosuggestions"
@@ -17,56 +24,100 @@ brew "zsh-syntax-highlighting"
 brew "git-lfs"
 brew "gh"
 brew "tig"
+brew "git-delta"
 
 # CLI Tools
+brew "bat"
+brew "direnv"
+brew "exiftool"
+brew "eza"
+brew "fd"
+brew "fzf"
 brew "htop"
 brew "jq"
-brew "fzf"
-brew "bat"
+brew "ncdu"
 brew "ripgrep"
-brew "fd"
-brew "eza"
 brew "tldr"
-## Metadata for files
-brew "exiftool"
+brew "zoxide"
 
 # Compression
 brew "xz"
 brew "p7zip"
 
 # Databases
+brew "mysql"
+brew "mysql-client@8.0"
 brew "postgresql@15"
 brew "redis"
-brew "mysql"
 
-# DevOps
+# DevOps & Cloud
+brew "awscli"
 brew "docker"
 brew "docker-compose"
 brew "terraform"
+cask "docker-desktop"
 
-# Python
-brew "python@3.11"
-brew "pyenv"
-
-# Java
+# Programming Languages & Environments
+brew "go"
 brew "openjdk@17"
+brew "pipx"
+brew "pyenv"
+brew "python@3.11"
+brew "python@3.13"
+
+# iOS & Mobile Development
+brew "cocoapods"
+brew "xcodegen"
+brew "xcodes"
+
+# AI & AI Agents
+brew "ollama", restart_service: :changed
+brew "anomalyco/tap/opencode"
+brew "gentleman-programming/tap/engram"
+brew "gentleman-programming/tap/gentle-ai"
+brew "gentleman-programming/tap/gga"
+
+# Security & Forensics
+brew "bkcrack"
+brew "john-jumbo"
 
 # Utilities
-brew "imagemagick"
 brew "ffmpeg"
-brew "yt-dlp"
+brew "imagemagick"
 brew "qrencode"
+brew "yt-dlp"
 
 # Applications
-cask "visual-studio-code"
-cask "iterm2"
-cask "google-chrome"
-cask "postman"
-cask "docker-desktop"
-cask "warp"
-cask "notion"
 cask "android-studio"
+cask "google-chrome"
+cask "iterm2"
+cask "notion"
+cask "postman"
+cask "visual-studio-code"
+cask "warp"
 
 # Fonts
 cask "font-fira-code"
 cask "font-jetbrains-mono"
+
+# VS Code Extensions
+vscode "bierner.markdown-mermaid"
+vscode "continue.continue"
+vscode "davidanson.vscode-markdownlint"
+vscode "eamodio.gitlens"
+vscode "github.copilot-chat"
+vscode "golang.go"
+vscode "google.geminicodeassist"
+vscode "jripouteau.adonis-vscode-extension"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode.vscode-typescript-next"
+vscode "openai.chatgpt"
+vscode "redhat.vscode-yaml"
+vscode "saoudrizwan.claude-dev"
+vscode "vue.volar"
+vscode "yoavbls.pretty-ts-errors"
