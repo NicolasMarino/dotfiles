@@ -2,39 +2,9 @@
 
 set -e
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-NC='\033[0m'
-
-print_header() {
-    echo ""
-    echo -e "${MAGENTA}========================================${NC}"
-    echo -e "${MAGENTA}$1${NC}"
-    echo -e "${MAGENTA}========================================${NC}"
-    echo ""
-}
-
-print_success() {
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}✗${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}ℹ${NC} $1"
-}
-
 DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$DOTFILES_DIR/scripts/common.sh"
+
 print_info "Dotfiles directory: $DOTFILES_DIR"
 
 # Verify macOS
@@ -50,10 +20,10 @@ print_success "macOS detected"
 ARCH=$(uname -m)
 if [[ "$ARCH" == "arm64" ]]; then
     print_success "ARM64 (M1/M2/M3/M4) detected"
-    HOMEBREW_PREFIX="/opt/homebrew"
+    export HOMEBREW_PREFIX="/opt/homebrew"
 else
     print_success "Intel detected"
-    HOMEBREW_PREFIX="/usr/local"
+    export HOMEBREW_PREFIX="/usr/local"
 fi
 
 # Install Homebrew

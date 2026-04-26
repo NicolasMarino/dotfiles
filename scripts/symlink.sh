@@ -2,21 +2,8 @@
 
 set -e
 
-# Colors
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-print_success() {
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}ℹ${NC} $1"
-}
-
-# Detect dotfiles directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$SCRIPT_DIR/common.sh"
 DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
 
 print_info "Dotfiles directory: $DOTFILES_DIR"

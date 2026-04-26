@@ -2,23 +2,8 @@
 
 set -e
 
-GREEN='\033[0;32m' 
-YELLOW='\033[0;33m'     
-BLUE='\033[0;34m'   
-NC='\033[0m'    
-
-# Function to print a success message in green
-print_success() {
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}ℹ${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
-}
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$SCRIPT_DIR/common.sh"
 print_warning "This script will change macOS system settings"
 print_info "You can revert changes from System Preferences"
 echo "" 

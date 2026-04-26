@@ -17,15 +17,18 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - Oh My Zsh with autosuggestions and syntax highlighting
 - Custom aliases and functions
 - fzf integration for fuzzy search (CTRL-T, CTRL-R, ALT-C)
+- direnv for per-directory environment variables
+- zoxide for smarter directory navigation
 
 **Git**
 - Aliases and configuration
 - Conditional configs for work/personal projects
 - Global gitignore
+- delta for syntax-highlighted diffs
 
 **Homebrew**
 - Brewfile with common dev tools (git, node, docker, etc.)
-- Modern CLI tools (bat, ripgrep, fd, exa)
+- Modern CLI tools (bat, ripgrep, fd, eza, delta, zoxide, direnv)
 
 #### Installing a new tool
 ```bash
@@ -63,6 +66,7 @@ gc    # git commit
 gp    # git push
 gl    # git pull
 glog  # pretty git log
+gcof  # checkout branch with fzf picker
 ```
 
 **Functions:**

@@ -2,22 +2,8 @@
 
 set -e
 
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
-print_success() {
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-print_info() {
-    echo -e "${BLUE}ℹ${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
-}
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$SCRIPT_DIR/common.sh"
 
 # Install Oh My Zsh
 print_info "Installing Oh My Zsh..."
@@ -53,7 +39,7 @@ print_info "Configuring nvm..."
 
 if command -v brew &> /dev/null; then
     export NVM_DIR="$HOME/.nvm"
-    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+    [ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh"
     
     if command -v nvm &> /dev/null; then
         print_success "nvm available"
@@ -76,7 +62,7 @@ print_info "Setting up fzf (fuzzy finder)..."
 
 if command -v fzf &> /dev/null; then
     if [ ! -f ~/.fzf.zsh ]; then
-        /opt/homebrew/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+        ${HOMEBREW_PREFIX}/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
         print_success "fzf key bindings installed"
     else
         print_success "fzf already configured"
