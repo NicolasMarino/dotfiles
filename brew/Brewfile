@@ -78,6 +78,9 @@ brew "gentleman-programming/tap/gentle-ai"
 brew "gentleman-programming/tap/gga"
 
 # Security & Forensics
+brew "bfg"
+brew "gitleaks"
+brew "pre-commit"
 brew "bkcrack"
 brew "john-jumbo"
 

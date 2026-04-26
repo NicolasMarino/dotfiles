@@ -118,7 +118,7 @@ source "/Users/nicolasmarino/.openclaw/completions/openclaw.zsh"
 export PATH="$PATH:/Users/nicolasmarino/.lmstudio/bin"
 # End of LM Studio CLI section
 
-export MINIMAX_API_KEY="***REMOVED***"
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
 # Initialize Starship prompt
 if command -v starship &>/dev/null; then

@@ -2,12 +2,25 @@
 
 My personal dev environment setup for macOS (M4) and Windows (WIP).
 
-## Installation
+## Prerequisites (Fresh Mac Setup)
+
+If you are on a brand new Mac, you need the Apple Command Line Tools to get `git` before you can clone this repository. Open your terminal and run:
 
 ```bash
+xcode-select --install
+```
+
+## Installation
+
+Once you have git installed, clone the repository and run the setup script:
+
+```bash
+git clone https://github.com/nicolasmarino/dotfiles.git ~/Documents/git/dotfiles
 cd ~/Documents/git/dotfiles
 ./install.sh
 ```
+
+> **Note:** The `install.sh` script is completely **idempotent**. This means it is safe to run it multiple times. You can run it again in the future to sync changes or install newly added packages without breaking your current setup.
 
 This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, and create symlinks to your home directory. It can also apply some macOS defaults if you want.
 
@@ -19,6 +32,7 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - fzf integration for fuzzy search (CTRL-T, CTRL-R, ALT-C)
 - direnv for per-directory environment variables
 - zoxide for smarter directory navigation
+- Modern CLI tools (bat, ripgrep, fd, eza, delta)
 
 **Git**
 - Aliases and configuration
@@ -26,9 +40,13 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - Global gitignore
 - delta for syntax-highlighted diffs
 
+**Editor (VS Code)**
+- Font configuration (Fira Code with ligatures)
+- Recommended extensions via `extensions.txt`
+- Pre-configured `settings.json` and keybindings symlinked automatically
+
 **Homebrew**
 - Brewfile with common dev tools (git, node, docker, etc.)
-- Modern CLI tools (bat, ripgrep, fd, eza, delta, zoxide, direnv)
 
 #### Installing a new tool
 ```bash
@@ -48,12 +66,12 @@ git commit -am "add new package"
 
 ## How it works
 
-
 Everything uses symlinks, so you edit files in this repo and changes apply immediately. No need to copy files around.
 
 ```bash
 ~/.zshrc -> ~/Documents/git/dotfiles/zsh/.zshrc
 ~/.gitconfig -> ~/Documents/git/dotfiles/git/.gitconfig
+~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/dotfiles/vscode/settings.json
 ```
 
 ## Useful stuff
@@ -112,9 +130,14 @@ git commit -am "update"
 
 Don't forget to update your name/email in `git/.gitconfig`.
 
-## Backups
+## Backups & Rollback
 
-Your original configs get backed up to `~/.dotfiles_backup/` before anything is changed.
+Your original configs get backed up to `~/.dotfiles_backup/` before anything is changed during installation.
+
+If you ever need to restore your old setup, you can copy everything back from the backup folder:
+```bash
+cp -a ~/.dotfiles_backup/. ~/
+```
 
 ## Windows
 
