@@ -32,25 +32,20 @@
 - [ ] Essential plugins (Telescope, Treesitter, LSP)
 - [ ] Color scheme configuration
 
-### AI Editors
-
-- [ ] Shared settings with VS Code (Cursor/Windsurf)
-- [ ] AI-specific configurations (prompts, rules)
-
 ---
 
 ## Phase 2: Development Workflow
 
 ### Standards & Quality
 
-- [ ] Global `.editorconfig` (ensure it covers all file types)
-- [ ] Global `.prettierrc` for consistent formatting
+- [x] Global `.editorconfig` (ensure it covers all file types)
+- [x] Global `.prettierrc` for consistent formatting
 
 ### Git Enhancements
 
-- [ ] Git hooks (pre-commit, commit-msg)
+- [x] Git hooks (pre-commit, commit-msg)
 - [ ] Git commit message templates
-- [ ] `delta` for syntax-highlighted git diffs
+- [x] `delta` for syntax-highlighted git diffs
 - [ ] `lazygit` TUI configuration
 
 ### Infrastructure & Cloud
@@ -63,9 +58,9 @@
 
 ## Phase 3: Security & Privacy
 
-- [ ] SSH config with multiple keys/hosts management
-- [ ] GPG key configuration for commit signing
-- [ ] `gitleaks` pre-commit hook to prevent secret leaks
+- [x] SSH config with multiple keys/hosts management
+- [x] GPG key configuration for commit signing
+- [x] `gitleaks` pre-commit hook to prevent secret leaks
 
 ---
 

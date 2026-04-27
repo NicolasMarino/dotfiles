@@ -9,16 +9,35 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+# Shell scripts
 [*.{sh,zsh,bash}]
 indent_style = space
 indent_size = 4
 
+# Markdown
 [*.{md,markdown}]
 trim_trailing_whitespace = false
 
+# Web/Node standards (JS, TS, JSON, CSS, etc.)
+[*.{js,ts,jsx,tsx,json,css,scss,html}]
+indent_style = space
+indent_size = 2
+
+# Python
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Golang (stricts tabs)
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# YAML
 [*.{yml,yaml}]
 indent_style = space
 indent_size = 2
 
+# Makefiles
 [Makefile]
 indent_style = tab
