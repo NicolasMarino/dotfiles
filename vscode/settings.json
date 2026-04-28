@@ -6,10 +6,5 @@
   "files.autoSave": "onFocusChange",
   "diffEditor.ignoreTrimWhitespace": false,
   "remote.autoForwardPortsSource": "hybrid",
-  "workbench.iconTheme": "vscode-icons",
-  "yaml.schemas": {
-    "file:///Users/nicolasmarino/.vscode/extensions/continue.continue-1.2.22-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ]
-  }
+  "workbench.iconTheme": "vscode-icons"
 }

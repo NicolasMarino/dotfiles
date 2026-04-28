@@ -112,11 +112,10 @@ command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
 # OpenClaw Completion
-source "/Users/nicolasmarino/.openclaw/completions/openclaw.zsh"
+[ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/nicolasmarino/.lmstudio/bin"
-# End of LM Studio CLI section
+# LM Studio CLI
+[ -d "$HOME/.lmstudio/bin" ] && export PATH="$PATH:$HOME/.lmstudio/bin"
 
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 

@@ -62,7 +62,7 @@ print_info "Setting up fzf (fuzzy finder)..."
 
 if command -v fzf &> /dev/null; then
     if [ ! -f ~/.fzf.zsh ]; then
-        ${HOMEBREW_PREFIX}/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+        "${HOMEBREW_PREFIX}/opt/fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-fish
         print_success "fzf key bindings installed"
     else
         print_success "fzf already configured"

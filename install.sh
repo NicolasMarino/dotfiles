@@ -101,6 +101,6 @@ echo ""
 
 print_info "Reloading shell to apply changes..."
 echo ""
-read -p "Press ENTER to reload your shell (or Ctrl+C to exit and reload manually)"
+read -rp "Press ENTER to reload your shell (or Ctrl+C to exit and reload manually)"
 
 exec zsh

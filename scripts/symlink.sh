@@ -20,6 +20,10 @@ print_success "~/.gitconfig -> dotfiles/git/.gitconfig"
 ln -sf "$DOTFILES_DIR/git/.gitignore_global" "$HOME/.gitignore_global"
 print_success "~/.gitignore_global -> dotfiles/git/.gitignore_global"
 
+# nvm
+ln -sf "$DOTFILES_DIR/.nvmrc" "$HOME/.nvmrc"
+print_success "~/.nvmrc -> dotfiles/.nvmrc"
+
 echo ""
 print_success "Symlinks created"
 print_info "Changes in $DOTFILES_DIR will reflect automatically"
