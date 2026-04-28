@@ -134,6 +134,21 @@ notes() {
     [ -f "$notes_file" ] && tail -20 "$notes_file" || echo "No notes found"
 }
 
+# Antigravity
+antigravity() {
+    local target="${1:-.}"
+
+    # Resolve to absolute path
+    target="$(cd "$target" 2>/dev/null && pwd)"
+
+    if [[ -z "$target" ]]; then
+        echo "❌ Error: path not found or not accessible: $1"
+        return 1
+    fi
+
+    open -a "Antigravity" "$target"
+}
+
 # System Info
 sysinfo() {
     echo "🖥️  System:"

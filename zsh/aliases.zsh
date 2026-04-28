@@ -103,3 +103,6 @@ alias reload='source ~/.zshrc'
 
 # fzf-powered search (INDUSTRY STANDARD)
 alias preview='fzf --preview "bat --color=always {}"'
+
+# Antigravity
+alias ag='antigravity .'
