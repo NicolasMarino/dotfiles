@@ -94,8 +94,8 @@ If using WSL (Windows Subsystem for Linux), you can share some configs:
 
 ```bash
 # In WSL
-ln -s /mnt/c/Users/YourName/Documents/git/dotfiles/git/.gitconfig ~/.gitconfig
-ln -s /mnt/c/Users/YourName/Documents/git/dotfiles/zsh/.zshrc ~/.zshrc
+ln -s /mnt/c/Users/YourName/Documents/git/personal/dotfiles/git/.gitconfig ~/.gitconfig
+ln -s /mnt/c/Users/YourName/Documents/git/personal/dotfiles/zsh/.zshrc ~/.zshrc
 ```
 
 ## Troubleshooting

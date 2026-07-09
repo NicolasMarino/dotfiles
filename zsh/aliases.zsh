@@ -95,10 +95,10 @@ alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall F
 alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 # Config
-alias zshconfig='code ~/Documents/git/dotfiles/zsh/.zshrc'
-alias aliases='code ~/Documents/git/dotfiles/zsh/aliases.zsh'
-alias functions='code ~/Documents/git/dotfiles/zsh/functions.zsh'
-alias gitconfig='code ~/Documents/git/dotfiles/git/.gitconfig'
+alias zshconfig='code ~/Documents/git/personal/dotfiles/zsh/.zshrc'
+alias aliases='code ~/Documents/git/personal/dotfiles/zsh/aliases.zsh'
+alias functions='code ~/Documents/git/personal/dotfiles/zsh/functions.zsh'
+alias gitconfig='code ~/Documents/git/personal/dotfiles/git/.gitconfig'
 alias reload='source ~/.zshrc'
 
 # fzf-powered search (INDUSTRY STANDARD)

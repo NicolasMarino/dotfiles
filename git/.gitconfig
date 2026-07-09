@@ -146,10 +146,10 @@
 # Conditional configs based on directory
 # Default for everything in ~/Documents/git (personal)
 [includeIf "gitdir:~/Documents/git/"]
-    path = ~/Documents/git/dotfiles/git/.gitconfig.personal
+    path = ~/Documents/git/personal/dotfiles/git/.gitconfig.personal
 
 # Work projects (overrides personal for work/ subdir)
 [includeIf "gitdir:~/Documents/git/work/"]
-    path = ~/Documents/git/dotfiles/git/.gitconfig.work
+    path = ~/Documents/git/personal/dotfiles/git/.gitconfig.work
 [credential "https://gitlab.com"]
 	helper = !glab auth git-credential

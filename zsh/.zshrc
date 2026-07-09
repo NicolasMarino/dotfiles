@@ -21,6 +21,12 @@ elif [[ -f /usr/local/bin/brew ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# User-local binaries (claude, etc.)
+export PATH="$HOME/.local/bin:$PATH"
+
+# Antigravity CLI (agy)
+[ -d "$HOME/.antigravity/antigravity/bin" ] && export PATH="$PATH:$HOME/.antigravity/antigravity/bin"
+
 # nvm - Node Version Manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" --no-use
@@ -74,8 +80,8 @@ export LESS='-R'
 export HOMEBREW_NO_ANALYTICS=1
 
 # Load custom configurations
-[ -f "$HOME/Documents/git/dotfiles/zsh/aliases.zsh" ] && source "$HOME/Documents/git/dotfiles/zsh/aliases.zsh"
-[ -f "$HOME/Documents/git/dotfiles/zsh/functions.zsh" ] && source "$HOME/Documents/git/dotfiles/zsh/functions.zsh"
+[ -f "$HOME/Documents/git/personal/dotfiles/zsh/aliases.zsh" ] && source "$HOME/Documents/git/personal/dotfiles/zsh/aliases.zsh"
+[ -f "$HOME/Documents/git/personal/dotfiles/zsh/functions.zsh" ] && source "$HOME/Documents/git/personal/dotfiles/zsh/functions.zsh"
 
 # History
 HISTFILE=~/.zsh_history

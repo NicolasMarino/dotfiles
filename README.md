@@ -15,8 +15,8 @@ xcode-select --install
 Once you have git installed, clone the repository and run the setup script:
 
 ```bash
-git clone https://github.com/nicolasmarino/dotfiles.git ~/Documents/git/dotfiles
-cd ~/Documents/git/dotfiles
+git clone https://github.com/nicolasmarino/dotfiles.git ~/Documents/git/personal/dotfiles
+cd ~/Documents/git/personal/dotfiles
 ./install.sh
 ```
 
@@ -69,9 +69,9 @@ git commit -am "add new package"
 Everything uses symlinks, so you edit files in this repo and changes apply immediately. No need to copy files around.
 
 ```bash
-~/.zshrc -> ~/Documents/git/dotfiles/zsh/.zshrc
-~/.gitconfig -> ~/Documents/git/dotfiles/git/.gitconfig
-~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/dotfiles/vscode/settings.json
+~/.zshrc -> ~/Documents/git/personal/dotfiles/zsh/.zshrc
+~/.gitconfig -> ~/Documents/git/personal/dotfiles/git/.gitconfig
+~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/personal/dotfiles/vscode/settings.json
 ```
 
 ## Useful stuff
