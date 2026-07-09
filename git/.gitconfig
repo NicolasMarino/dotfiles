@@ -144,12 +144,12 @@
     threads = 0
 
 # Conditional configs based on directory
-# Default for everything in ~/Documents/git (personal)
+# Default for everything in ~/Documents/git (work)
 [includeIf "gitdir:~/Documents/git/"]
-    path = ~/Documents/git/personal/dotfiles/git/.gitconfig.personal
-
-# Work projects (overrides personal for work/ subdir)
-[includeIf "gitdir:~/Documents/git/work/"]
     path = ~/Documents/git/personal/dotfiles/git/.gitconfig.work
+
+# Personal projects (overrides work for personal/ subdir)
+[includeIf "gitdir:~/Documents/git/personal/"]
+    path = ~/Documents/git/personal/dotfiles/git/.gitconfig.personal
 [credential "https://gitlab.com"]
 	helper = !glab auth git-credential
