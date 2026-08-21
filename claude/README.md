@@ -1,4 +1,4 @@
-# Claude Code guard hooks
+# Claude Code config
 
 Hooks are shell commands the Claude Code harness runs at fixed points in its
 tool-call lifecycle. They are not prompts: no model is involved, they always
@@ -14,7 +14,8 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | ---- | ------- |
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
-| `settings.fragment.json` | The `hooks` block merged into `~/.claude/settings.json` |
+| `statusline.sh` | Status line: model, branch, session cost, context and rate-limit budget |
+| `settings.fragment.json` | The `hooks` and `statusLine` blocks merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 35 golden inputs, both directions |
 
 ## bash-guard.sh
@@ -82,8 +83,9 @@ is a credential, but together it is an infrastructure map, and this repository
 is public.
 
 `scripts/claude.sh` merges the tracked fragment into whatever settings.json
-already exists, replacing only the hook events the fragment defines and
-leaving every other key alone. It backs up to a timestamped `settings.json.<ts>.bak` first.
+already exists: `hooks` merges per event, so unrelated events survive, and
+every other fragment key replaces wholesale. Keys the fragment never mentions
+are left alone. It backs up to a timestamped `settings.json.<ts>.bak` first.
 
 ## Adding a hook
 
