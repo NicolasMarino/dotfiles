@@ -151,5 +151,8 @@
 # Personal projects (overrides work for personal/ subdir)
 [includeIf "gitdir:~/Documents/git/personal/"]
     path = ~/Documents/git/personal/dotfiles/git/.gitconfig.personal
-[credential "https://gitlab.com"]
-	helper = !glab auth git-credential
+
+# Machine-specific overrides (gitignored, optional).
+# Loaded last so it wins over every block above.
+[include]
+    path = ~/Documents/git/personal/dotfiles/git/.gitconfig.local

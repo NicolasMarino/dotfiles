@@ -130,6 +130,15 @@ git commit -am "update"
 
 Don't forget to update your name/email in `git/.gitconfig`.
 
+For anything that is specific to one machine rather than to an identity
+(host credential helpers, a corporate proxy), use `git/.gitconfig.local`:
+
+```bash
+cp git/.gitconfig.local.sample git/.gitconfig.local
+```
+
+It is gitignored and loaded last, so it overrides everything above it.
+
 ## Backups & Rollback
 
 Your original configs get backed up to `~/.dotfiles_backup/` before anything is changed during installation.
