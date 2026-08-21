@@ -106,12 +106,21 @@
 
 [merge]
     conflictstyle = zdiff3
-    tool = vimdiff
+    tool = vscode
 
 [diff]
     algorithm = patience
     renames = copies
-    tool = vimdiff
+    tool = vscode
+
+[mergetool "vscode"]
+    cmd = code --wait "$MERGED"
+
+[mergetool]
+    keepBackup = false
+
+[difftool "vscode"]
+    cmd = code --wait --diff "$LOCAL" "$REMOTE"
 
 [delta]
     navigate = true
