@@ -128,7 +128,9 @@ vim brew/Brewfile      # add packages
 git commit -am "update"
 ```
 
-Don't forget to update your name/email in `git/.gitconfig`.
+Your name, email and signing key live in `git/.gitconfig.personal` and
+`git/.gitconfig.work` — both gitignored. The tracked `git/.gitconfig` holds
+only shared settings.
 
 For anything that is specific to one machine rather than to an identity
 (host credential helpers, a corporate proxy), use `git/.gitconfig.local`:
