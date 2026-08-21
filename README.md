@@ -146,8 +146,13 @@ It is gitignored and loaded last, so it overrides everything above it.
 Your original configs get backed up to `~/.dotfiles_backup/` before anything is changed during installation.
 
 If you ever need to restore your old setup, you can copy everything back from the backup folder:
+Each backup is timestamped, and nested paths are flattened with `_`
+(`Library_Application_Support_Code_User_settings.json.20260820-193000`), so
+restore the specific file you want rather than copying the folder wholesale:
+
 ```bash
-cp -a ~/.dotfiles_backup/. ~/
+eza -la ~/.dotfiles_backup/
+cp ~/.dotfiles_backup/.zshrc.20260820-193000 ~/.zshrc
 ```
 
 ## Windows
