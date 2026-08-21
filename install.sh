@@ -87,6 +87,10 @@ fi
 print_header "VS Code Setup"
 bash "$DOTFILES_DIR/scripts/vscode.sh"
 
+# Claude Code guard hooks
+print_header "Claude Code Setup"
+bash "$DOTFILES_DIR/scripts/claude.sh"
+
 # Finish
 print_header "Installation Complete"
 
