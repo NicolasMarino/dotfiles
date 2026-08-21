@@ -43,7 +43,7 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 **Editor (VS Code)**
 - Font configuration (Fira Code with ligatures)
 - Recommended extensions via `extensions.txt`
-- Pre-configured `settings.json` and keybindings symlinked automatically
+- Pre-configured `settings.json` symlinked automatically
 
 **Homebrew**
 - Brewfile with common dev tools (git, docker, etc.)
@@ -105,9 +105,13 @@ killport 3000       # kill process on that port
 The `.gitconfig` uses conditional includes to automatically use different emails/SSH keys based on where you clone repos:
 
 ```bash
-~/Documents/git/work/     # uses .gitconfig.work
-~/Documents/git/personal/ # uses .gitconfig.personal
+~/Documents/git/          # uses .gitconfig.work
+~/Documents/git/personal/ # uses .gitconfig.personal (overrides the line above)
 ```
+
+Order matters: the broader `~/Documents/git/` include comes first, and the
+narrower `personal/` one overrides it. A new scope must be appended after the
+broader one to win.
 
 Copy the sample files and edit them:
 ```bash
@@ -117,7 +121,7 @@ vim git/.gitconfig.work
 vim git/.gitconfig.personal
 ```
 
-See [GIT_CONFIG_GUIDE.md](GIT_CONFIG_GUIDE.md) for more details.
+See [docs/GIT_CONFIG_GUIDE.md](docs/GIT_CONFIG_GUIDE.md) for more details.
 
 ## Customization
 
