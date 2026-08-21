@@ -56,7 +56,6 @@ export FZF_DEFAULT_OPTS='
 export EDITOR='code --wait'
 export VISUAL='code --wait'
 export LANG='en_US.UTF-8'
-export LC_ALL='en_US.UTF-8'
 export LESS='-R'
 export HOMEBREW_NO_ANALYTICS=1
 
