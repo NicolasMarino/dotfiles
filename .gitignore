@@ -8,3 +8,7 @@
 git/.gitconfig.local
 git/.gitconfig.work
 git/.gitconfig.personal
+
+# Agent tooling working dirs (worktrees, caches, local settings)
+.claude/
+.atl/

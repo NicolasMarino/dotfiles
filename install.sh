@@ -87,13 +87,17 @@ fi
 print_header "VS Code Setup"
 bash "$DOTFILES_DIR/scripts/vscode.sh"
 
+# Claude Code guard hooks
+print_header "Claude Code Setup"
+bash "$DOTFILES_DIR/scripts/claude.sh"
+
 # Finish
 print_header "Installation Complete"
 
 print_success "Dotfiles installed successfully! 🎉"
 echo ""
 print_info "Next steps:"
-echo "  1. Update git/.gitconfig with your name and email"
+echo "  1. cp git/.gitconfig.personal.sample git/.gitconfig.personal, then set your name/email"
 echo "  2. Customize configurations in $DOTFILES_DIR"
 echo ""
 print_warning "Backups are stored in ~/.dotfiles_backup/"

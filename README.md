@@ -43,10 +43,14 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 **Editor (VS Code)**
 - Font configuration (Fira Code with ligatures)
 - Recommended extensions via `extensions.txt`
-- Pre-configured `settings.json` and keybindings symlinked automatically
+- Pre-configured `settings.json` symlinked automatically
 
 **Homebrew**
-- Brewfile with common dev tools (git, node, docker, etc.)
+- Brewfile with common dev tools (git, docker, etc.)
+
+**Claude Code**
+- Global `PreToolUse` guard hooks (secret scanning, destructive-command
+  blocking) merged into `~/.claude/settings.json` — see [claude/README.md](claude/README.md)
 
 #### Installing a new tool
 ```bash
@@ -56,8 +60,8 @@ git commit -am "add new package"
 ```
 
 **Node.js**
-- nvm for version management
-- Auto-switches versions based on `.nvmrc`
+- fnm for version management
+- Auto-switches versions based on `.nvmrc` and `.node-version`
 
 **Windows (WIP)**
 - PowerShell profile with similar aliases
@@ -105,9 +109,13 @@ killport 3000       # kill process on that port
 The `.gitconfig` uses conditional includes to automatically use different emails/SSH keys based on where you clone repos:
 
 ```bash
-~/Documents/git/work/     # uses .gitconfig.work
-~/Documents/git/personal/ # uses .gitconfig.personal
+~/Documents/git/          # uses .gitconfig.work
+~/Documents/git/personal/ # uses .gitconfig.personal (overrides the line above)
 ```
+
+Order matters: the broader `~/Documents/git/` include comes first, and the
+narrower `personal/` one overrides it. A new scope must be appended after the
+broader one to win.
 
 Copy the sample files and edit them:
 ```bash
@@ -117,7 +125,7 @@ vim git/.gitconfig.work
 vim git/.gitconfig.personal
 ```
 
-See [GIT_CONFIG_GUIDE.md](GIT_CONFIG_GUIDE.md) for more details.
+See [docs/GIT_CONFIG_GUIDE.md](docs/GIT_CONFIG_GUIDE.md) for more details.
 
 ## Customization
 
@@ -128,15 +136,31 @@ vim brew/Brewfile      # add packages
 git commit -am "update"
 ```
 
-Don't forget to update your name/email in `git/.gitconfig`.
+Your name, email and signing key live in `git/.gitconfig.personal` and
+`git/.gitconfig.work` — both gitignored. The tracked `git/.gitconfig` holds
+only shared settings.
+
+For anything that is specific to one machine rather than to an identity
+(host credential helpers, a corporate proxy), use `git/.gitconfig.local`:
+
+```bash
+cp git/.gitconfig.local.sample git/.gitconfig.local
+```
+
+It is gitignored and loaded last, so it overrides everything above it.
 
 ## Backups & Rollback
 
 Your original configs get backed up to `~/.dotfiles_backup/` before anything is changed during installation.
 
 If you ever need to restore your old setup, you can copy everything back from the backup folder:
+Each backup is timestamped, and nested paths are flattened with `_`
+(`Library_Application_Support_Code_User_settings.json.20260820-193000`), so
+restore the specific file you want rather than copying the folder wholesale:
+
 ```bash
-cp -a ~/.dotfiles_backup/. ~/
+eza -la ~/.dotfiles_backup/
+cp ~/.dotfiles_backup/.zshrc.20260820-193000 ~/.zshrc
 ```
 
 ## Windows

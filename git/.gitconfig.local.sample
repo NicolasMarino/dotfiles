@@ -1,0 +1,11 @@
+# Machine-specific git overrides.
+# Copy to .gitconfig.local (gitignored) and edit. Loaded last by .gitconfig,
+# so anything here overrides the tracked config and the personal/work includes.
+
+# Host-specific credential helpers
+# [credential "https://gitlab.com"]
+# 	helper = !glab auth git-credential
+
+# Per-machine proxy
+# [http]
+# 	proxy = http://proxy.example.com:8080

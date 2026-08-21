@@ -2,8 +2,8 @@
 # Copy this to git/.gitconfig.personal and customize
 
 [user]
-    name = Nicolas Marino      
-    email = nico@gmail.com
+    name = Your Personal Name
+    email = you@example.com
 
 [core]
     # Use different SSH key for personal projects

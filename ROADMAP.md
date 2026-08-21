@@ -5,7 +5,7 @@
 ✅ Basic shell configuration (zsh, Oh My Zsh)
 ✅ Git configuration with work/personal separation
 ✅ Homebrew package management
-✅ Node.js version management (nvm)
+✅ Node.js version management (fnm)
 ✅ Modern CLI tools (fzf, bat, ripgrep, eza)
 ✅ macOS system preferences automation
 ✅ Windows support (WIP)
@@ -68,7 +68,7 @@
 
 ### Automation & CI/CD
 
-- [ ] GitHub Actions for linting shell scripts (`shellcheck`)
-- [ ] Automated testing of installation scripts
+- [x] GitHub Actions for linting shell scripts (`shellcheck`)
+- [x] Automated testing of installation scripts (parse + phase-path smoke test, guard-hook golden tests)
 - [ ] Brewfile validation workflow
 - [ ] Automated backup script with rotation

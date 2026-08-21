@@ -8,10 +8,16 @@ source "$SCRIPT_DIR/common.sh"
 BACKUP_DIR="$HOME/.dotfiles_backup"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
+# Every path this repo symlinks over or edits in place must be listed here,
+# otherwise the installer overwrites a real config with no way back.
+# Paths are relative to $HOME and may contain slashes or spaces.
 FILES_TO_BACKUP=(
     ".zshrc"
     ".gitconfig"
     ".gitignore_global"
+    "Library/Application Support/Code/User/settings.json"
+    ".claude/settings.json"
+    ".claude/statusline.sh"
 )
 
 if [ ! -d "$BACKUP_DIR" ]; then
@@ -31,9 +37,13 @@ for file in "${FILES_TO_BACKUP[@]}"; do
             print_info "$file is a symlink, removing..."
             rm "$source_file"
         else
-            backup_file="$BACKUP_DIR/${file}.${TIMESTAMP}"
+            # Flatten the path: a nested source would otherwise need a
+            # directory tree inside the backup dir that does not exist.
+            flat_name="${file//\//_}"
+            flat_name="${flat_name// /_}"
+            backup_file="$BACKUP_DIR/${flat_name}.${TIMESTAMP}"
             cp "$source_file" "$backup_file"
-            print_success "Backed up: $file -> ${file}.${TIMESTAMP}"
+            print_success "Backed up: $file -> ${flat_name}.${TIMESTAMP}"
             BACKED_UP=$((BACKED_UP + 1))
         fi
     fi
