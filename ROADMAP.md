@@ -68,7 +68,7 @@
 
 ### Automation & CI/CD
 
-- [ ] GitHub Actions for linting shell scripts (`shellcheck`)
-- [ ] Automated testing of installation scripts
+- [x] GitHub Actions for linting shell scripts (`shellcheck`)
+- [x] Automated testing of installation scripts (parse + phase-path smoke test, guard-hook golden tests)
 - [ ] Brewfile validation workflow
 - [ ] Automated backup script with rotation
