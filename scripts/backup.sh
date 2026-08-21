@@ -16,6 +16,8 @@ FILES_TO_BACKUP=(
     ".gitconfig"
     ".gitignore_global"
     "Library/Application Support/Code/User/settings.json"
+    ".claude/settings.json"
+    ".claude/statusline.sh"
 )
 
 if [ ! -d "$BACKUP_DIR" ]; then
