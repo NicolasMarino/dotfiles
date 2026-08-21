@@ -34,26 +34,22 @@ else
     print_success "zsh-syntax-highlighting already installed"
 fi
 
-# Configure nvm
-print_info "Configuring nvm..."
+# Configure fnm
+print_info "Configuring fnm..."
 
 if command -v brew &> /dev/null; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh"
-    
-    if command -v nvm &> /dev/null; then
-        print_success "nvm available"
+    if command -v fnm &> /dev/null; then
+        print_success "fnm available"
         
-        print_info "Installing Node.js LTS..."
-        nvm install --lts
-        nvm use --lts
-        nvm alias default lts/*
+        print_info "Installing Node.js LTS via fnm..."
+        fnm install --lts
+        fnm default lts-latest
         
         print_success "Node.js LTS installed"
         print_info "Node version: $(node --version 2>/dev/null || echo 'N/A')"
         print_info "npm version: $(npm --version 2>/dev/null || echo 'N/A')"
     else
-        print_warning "nvm not found, will be installed with Homebrew"
+        print_warning "fnm not found, will be installed with Homebrew"
     fi
 fi
 

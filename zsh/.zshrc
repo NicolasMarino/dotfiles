@@ -27,29 +27,10 @@ export PATH="$HOME/.local/bin:$PATH"
 # Antigravity CLI (agy)
 [ -d "$HOME/.antigravity/antigravity/bin" ] && export PATH="$PATH:$HOME/.antigravity/antigravity/bin"
 
-# nvm - Node Version Manager
-export NVM_DIR="$HOME/.nvm"
-[ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" --no-use
-[ -s "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"
-
-# Auto-load .nvmrc when cd into directory
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+# fnm - Fast Node Manager
+if command -v fnm &> /dev/null; then
+    eval "$(fnm env --use-on-cd)"
+fi
 
 # fzf - Fuzzy Finder
 if [[ -f ~/.fzf.zsh ]]; then

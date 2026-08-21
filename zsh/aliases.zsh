@@ -64,9 +64,9 @@ alias nbuild='npm run build'
 alias npmg='npm list -g --depth=0'
 alias npmfresh='rm -rf node_modules package-lock.json && npm install'
 
-# nvm
-alias nvmls='nvm list'
-alias nvmuse='nvm use'
+# fnm
+alias fnmls='fnm list'
+alias fnmuse='fnm use'
 
 # Docker
 alias dps='docker ps'

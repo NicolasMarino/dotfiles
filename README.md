@@ -46,7 +46,7 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - Pre-configured `settings.json` and keybindings symlinked automatically
 
 **Homebrew**
-- Brewfile with common dev tools (git, node, docker, etc.)
+- Brewfile with common dev tools (git, docker, etc.)
 
 #### Installing a new tool
 ```bash
@@ -56,8 +56,8 @@ git commit -am "add new package"
 ```
 
 **Node.js**
-- nvm for version management
-- Auto-switches versions based on `.nvmrc`
+- fnm for version management
+- Auto-switches versions based on `.nvmrc` and `.node-version`
 
 **Windows (WIP)**
 - PowerShell profile with similar aliases

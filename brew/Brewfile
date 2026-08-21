@@ -9,8 +9,9 @@ brew "curl"
 brew "tree"
 
 # Node.js & Version Management
-brew "node@24", link: true
-brew "nvm"
+# No system node here on purpose: fnm owns the toolchain and puts the active
+# version on PATH. A linked Homebrew node would shadow it depending on order.
+brew "fnm"
 
 # Shell & Utilities
 brew "bash"
