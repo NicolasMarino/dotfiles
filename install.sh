@@ -87,6 +87,10 @@ fi
 print_header "VS Code Setup"
 bash "$DOTFILES_DIR/scripts/vscode.sh"
 
+# Neovim (LazyVim)
+print_header "Neovim Setup"
+bash "$DOTFILES_DIR/scripts/nvim.sh"
+
 # Claude Code guard hooks
 print_header "Claude Code Setup"
 bash "$DOTFILES_DIR/scripts/claude.sh"
