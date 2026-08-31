@@ -18,6 +18,7 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | `settings.fragment.json` | The `hooks`, `statusLine` and `subagentPromptCacheTtl` keys merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 35 golden inputs, both directions |
 | `gentle-ai-overrides/` | Local SDD rules that outrank gentle-ai's own, and the reconciler that keeps them alive |
+| `workflows/` | Scripts for the `Workflow` tool, symlinked into `~/.claude/workflows/` |
 | `test-overrides.sh` | 22 golden inputs for the reconciler, run against a throwaway `CLAUDE_DIR` |
 
 ## bash-guard.sh
@@ -161,3 +162,22 @@ Three things run it, so it should never need running by hand:
 It refuses to touch a `CLAUDE.md` whose gentle-ai markers are unbalanced: that
 means a sync was interrupted, and splicing into a half-written file would put
 the block inside a region about to be rewritten.
+
+## workflows/
+
+`~/.claude/workflows/` holds scripts for the `Workflow` tool, which runs a DAG
+of agents deterministically instead of leaving the orchestration to the model.
+gentle-ai never writes there, so these are plain symlinks.
+
+`sdd-chain.js` encodes the SDD pipeline: exploration fanned out across three
+scoped readers, spec and design in parallel (neither depends on the other —
+both read only the proposal), a task schema that forces every work unit to
+declare the files it writes, apply and verify pipelined per unit, and archive
+only at zero CRITICALs. It proves the file partition before running writers in
+parallel and degrades any overlapping units back to serial. Its verify schema
+requires each CRITICAL to be classified `coverage`, `spec_ambiguity` or
+`implementation`, which is what keeps the measurement behind L1-L7 current
+instead of a one-off.
+
+Running a workflow needs explicit opt-in per invocation; installing the script
+does not run anything.

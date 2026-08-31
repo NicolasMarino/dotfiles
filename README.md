@@ -53,6 +53,7 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
   blocking) merged into `~/.claude/settings.json` — see [claude/README.md](claude/README.md)
 - Local SDD rules that outrank `gentle-ai`'s own, with a reconciler that
   restores them after every sync
+- Workflow scripts for the `Workflow` tool, symlinked into `~/.claude/workflows/`
 
 #### Installing a new tool
 ```bash
