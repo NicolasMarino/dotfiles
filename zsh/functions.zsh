@@ -160,3 +160,36 @@ sysinfo() {
     echo "💾 Disk:"
     df -h / | tail -1
 }
+
+# gentle-ai wrapper — restore the local SDD overrides after a sync.
+#
+# `gentle-ai install|sync|upgrade` rewrites every file it ships, which drops
+# `memory: project` from the reviewer agents. The CLAUDE.md overrides block
+# survives on its own (it sits outside every gentle-ai marker), but the agents
+# do not. Running the reconciler right after is the difference between config
+# that heals itself and config you remember to fix.
+#
+# The wrapper never changes gentle-ai's behaviour or its exit code: it forwards
+# every argument, preserves the status, and only then reconciles.
+gentle-ai() {
+    # `whence -p` skips functions and aliases, so this cannot recurse into
+    # itself the way `command -v` would.
+    local bin rc
+    bin="$(whence -p gentle-ai)"
+    if [[ -z "$bin" ]]; then
+        echo "gentle-ai: not found on PATH" >&2
+        return 127
+    fi
+
+    "$bin" "$@"
+    rc=$?
+
+    case "${1:-}" in
+        install|sync|upgrade)
+            local reconcile="$HOME/Documents/git/personal/dotfiles/claude/gentle-ai-overrides/reconcile.sh"
+            [[ -x "$reconcile" ]] && "$reconcile" --quiet
+            ;;
+    esac
+
+    return $rc
+}
