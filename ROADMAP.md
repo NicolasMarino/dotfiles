@@ -27,10 +27,11 @@
 
 ### Neovim
 
-- [ ] Add `init.vim` or `init.lua` configuration
-- [ ] Plugin manager setup (vim-plug or lazy.nvim)
-- [ ] Essential plugins (Telescope, Treesitter, LSP)
-- [ ] Color scheme configuration
+- [x] Add `init.lua` configuration (LazyVim starter in `nvim/`)
+- [x] Plugin manager setup (lazy.nvim, bootstrapped by LazyVim)
+- [x] Essential plugins (Treesitter, LSP, pickers — all from LazyVim)
+- [x] Git diff review (`diffview.nvim`, `<leader>gv`)
+- [ ] Color scheme configuration (still LazyVim's default)
 
 ---
 
