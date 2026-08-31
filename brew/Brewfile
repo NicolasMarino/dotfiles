@@ -29,6 +29,9 @@ brew "tig"
 brew "git-delta"
 brew "lazygit"
 
+# Editors
+brew "neovim"
+
 # CLI Tools
 brew "bat"
 brew "direnv"
@@ -109,6 +112,7 @@ cask "ghostty"
 # Fonts
 cask "font-fira-code"
 cask "font-jetbrains-mono"
+cask "font-jetbrains-mono-nerd-font"
 
 # VS Code Extensions
 vscode "bierner.markdown-mermaid"
