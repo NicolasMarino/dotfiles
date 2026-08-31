@@ -74,7 +74,10 @@ memory_inside_frontmatter() {
   mem=$(rg -n '^memory: project$' "$1" | cut -d: -f1)
   [ -n "$mem" ] && [ "$mem" -lt "$fence" ]
 }
-same_bytes() { [ "$(md5 -q "$1")" = "$2" ]; }
+# md5 on macOS, md5sum on the Linux CI runner. Only equality matters here, so
+# any stable digest of the file works.
+digest() { md5 -q "$1" 2>/dev/null || md5sum "$1" | cut -d\  -f1; }
+same_bytes() { [ "$(digest "$1")" = "$2" ]; }
 
 echo "== CLAUDE.md block =="
 
@@ -91,7 +94,7 @@ want "block lands outside every gentle-ai region" "block sits above a marker" \
 want "gentle-ai markers survive the splice" "marker count changed" \
   count_is "$d/CLAUDE.md" '^<!-- gentle-ai:' 2
 
-before="$(md5 -q "$d/CLAUDE.md")"
+before="$(digest "$d/CLAUDE.md")"
 run "$d"
 want "second run changes nothing" "file mutated on a clean run" \
   same_bytes "$d/CLAUDE.md" "$before"
@@ -124,7 +127,7 @@ echo "== safety =="
 # region that is about to be rewritten, so the reconciler must refuse.
 d="$(seed_dir)"
 printf '<!-- gentle-ai:orphan -->\ndangling\n' >> "$d/CLAUDE.md"
-before="$(md5 -q "$d/CLAUDE.md")"
+before="$(digest "$d/CLAUDE.md")"
 want_not "unbalanced gentle-ai markers exit non-zero" "it proceeded anyway" \
   run "$d"
 want "unbalanced markers leave the file untouched" "file was modified anyway" \
@@ -163,7 +166,7 @@ seed_agent "$d" jd-judge-a
 want_not "--check exits non-zero on drift" "reported clean while drifted" \
   run "$d" --check
 
-before="$(md5 -q "$d/CLAUDE.md")"
+before="$(digest "$d/CLAUDE.md")"
 run "$d" --check
 want "--check never writes" "file was modified" \
   same_bytes "$d/CLAUDE.md" "$before"

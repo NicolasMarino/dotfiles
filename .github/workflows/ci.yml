@@ -26,8 +26,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Both suites drive scripts that call rg, which the runner image lacks.
+      - name: Install ripgrep
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ripgrep
       - name: Run golden-input tests
         run: bash claude/test-hooks.sh
+      # The reconciler edits CLAUDE.md and agent frontmatter, so a suite CI
+      # never runs is a suite that rots. It drives a throwaway CLAUDE_DIR and
+      # touches nothing outside it.
+      - name: Run override tests
+        run: bash claude/test-overrides.sh
 
   installer:
     name: Installer smoke test
@@ -39,7 +47,7 @@ jobs:
       # actually exist — the drift that broke the installer before.
       - name: Parse-check every script
         run: |
-          for f in install.sh scripts/*.sh claude/*.sh claude/hooks/*.sh; do
+          for f in install.sh scripts/*.sh claude/*.sh claude/hooks/*.sh claude/gentle-ai-overrides/*.sh; do
             bash -n "$f" || exit 1
           done
       - name: Verify every script install.sh invokes exists
