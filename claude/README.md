@@ -16,7 +16,7 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
 | `statusline.sh` | Status line: model, branch, session cost, context and rate-limit budget |
 | `settings.fragment.json` | The `hooks`, `statusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
-| `test-hooks.sh` | 51 golden inputs, both directions, plus the on-disk body-file branch |
+| `test-hooks.sh` | 54 golden inputs, both directions, plus the on-disk body-file branch |
 
 ## bash-guard.sh
 
@@ -25,7 +25,8 @@ every shell command the agent issues, so it has to stay well under the ~100ms
 budget where latency starts being felt.
 
 1. **AI attribution.** Denies any publishing command — `git commit`,
-   `git tag`, `gh pr`, `gh release`, `gh issue` — carrying `Co-Authored-By`,
+   `git tag`, and `gh pr|release|issue` followed by a writing subcommand
+   (`create`, `edit`, `comment`, `merge`, …) — carrying `Co-Authored-By`,
    `Generated with Claude`, a `claude.ai/code/session_` URL, or 🤖. Body text
    passed as a file (`--body-file`, `--notes-file`) is opened and scanned too,
    because `gh` reads bodies from disk as often as from the command line.
@@ -34,8 +35,10 @@ budget where latency starts being felt.
    rule said "commits". A session URL then went out on three pull requests of
    a public repository. The rule was never about the word: it is about anything
    that leaves this machine carrying the user's name. Non-publishing commands
-   are untouched, so `rg "claude.ai/code/session_"` still runs — a guard that
-   blocks the hunt for a leak is worse than no guard.
+   are untouched, and reading verbs are matched by subcommand rather than by
+   noun, so a plain search over the tree and `gh pr view … | rg` both still
+   run. A guard that blocks the hunt for a leak is worse than no guard — the
+   first draft matched `gh pr` whole and denied exactly that.
 
 2. **Destructive commands.** Denies recursive `rm` against root, home, or a
    bare wildcard; `git push --force` without `--force-with-lease`;

@@ -32,7 +32,10 @@ deny() {
 # Only publishing verbs are inspected, so searching for these strings still
 # works. A guard that blocks the hunt for a leak is worse than no guard.
 attribution='co-authored-by|generated with .{0,3}claude|claude\.ai/code/session_|🤖'
-publishing='(^|[[:space:];&|])(git[[:space:]]+(commit|tag)|gh[[:space:]]+(pr|release|issue))'
+# The subcommand matters: `gh pr view` and `gh release list` read, they do not
+# publish. Matching the noun alone denied reading a PR to check it for a leak,
+# which is the opposite of the point.
+publishing='(^|[[:space:];&|])(git[[:space:]]+(commit|tag)|gh[[:space:]]+(pr|release|issue)[[:space:]]+(create|edit|comment|merge|ready|reopen|close|upload))'
 
 if grep -qE "$publishing" <<<"$cmd"; then
   if grep -qiE "$attribution" <<<"$cmd"; then
