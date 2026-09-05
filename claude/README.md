@@ -15,8 +15,8 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
 | `statusline.sh` | Status line: model, branch, session cost, context and rate-limit budget |
-| `settings.fragment.json` | The `hooks` and `statusLine` blocks merged into `~/.claude/settings.json` |
-| `test-hooks.sh` | 35 golden inputs, both directions |
+| `settings.fragment.json` | The `hooks`, `statusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
+| `test-hooks.sh` | 51 golden inputs, both directions, plus the on-disk body-file branch |
 
 ## bash-guard.sh
 
@@ -24,9 +24,18 @@ Three checks in one process, ~30ms per call. `PreToolUse` on `Bash` runs on
 every shell command the agent issues, so it has to stay well under the ~100ms
 budget where latency starts being felt.
 
-1. **Commit attribution.** Denies `git commit` whose message carries
-   `Co-Authored-By`, `Generated with Claude`, or 🤖. Scoped to `git commit` on
-   purpose: `gh pr create --body` is allowed to carry the trailer.
+1. **AI attribution.** Denies any publishing command — `git commit`,
+   `git tag`, `gh pr`, `gh release`, `gh issue` — carrying `Co-Authored-By`,
+   `Generated with Claude`, a `claude.ai/code/session_` URL, or 🤖. Body text
+   passed as a file (`--body-file`, `--notes-file`) is opened and scanned too,
+   because `gh` reads bodies from disk as often as from the command line.
+
+   This was once scoped to `git commit` on purpose, on the reading that the
+   rule said "commits". A session URL then went out on three pull requests of
+   a public repository. The rule was never about the word: it is about anything
+   that leaves this machine carrying the user's name. Non-publishing commands
+   are untouched, so `rg "claude.ai/code/session_"` still runs — a guard that
+   blocks the hunt for a leak is worse than no guard.
 
 2. **Destructive commands.** Denies recursive `rm` against root, home, or a
    bare wildcard; `git push --force` without `--force-with-lease`;

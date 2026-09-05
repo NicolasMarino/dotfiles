@@ -21,11 +21,41 @@ deny() {
   exit 0
 }
 
-# --- 1. commit attribution ---------------------------------------------
-# Scoped to `git commit`. PR and issue bodies are allowed to carry the trailer.
-if grep -qE '(^|[[:space:];&|])git[[:space:]]+commit' <<<"$cmd" \
-   && grep -qiE 'co-authored-by|generated with .{0,3}claude|🤖' <<<"$cmd"; then
-  deny "This user never puts AI attribution in commit messages. Remove the Co-Authored-By trailer and any 'Generated with Claude' line, then commit again with the conventional-commit subject and body only."
+# --- 1. AI attribution -------------------------------------------------
+# Every publishing verb, not just `git commit`. This was scoped to commits on
+# purpose once, on the reading that the rule said "commits" — and a session URL
+# went out on three pull requests of a public repository. The rule was never
+# about the word: it is about anything that leaves this machine carrying the
+# user's name. A claude.ai session link is not a credential, but it is a private
+# identifier, and publishing it is not the agent's call.
+#
+# Only publishing verbs are inspected, so searching for these strings still
+# works. A guard that blocks the hunt for a leak is worse than no guard.
+attribution='co-authored-by|generated with .{0,3}claude|claude\.ai/code/session_|🤖'
+publishing='(^|[[:space:];&|])(git[[:space:]]+(commit|tag)|gh[[:space:]]+(pr|release|issue))'
+
+if grep -qE "$publishing" <<<"$cmd"; then
+  if grep -qiE "$attribution" <<<"$cmd"; then
+    deny "Nothing published from this machine carries AI attribution: not commits, PR bodies, comments, release notes or issues. Remove the Co-Authored-By trailer, any 'Generated with Claude' line, and any claude.ai session URL, then run it again."
+  fi
+
+  # `gh` reads bodies from disk as often as from the command line, and a footer
+  # sitting in that file is invisible to every check on the command text. That
+  # is exactly how one got published.
+  read -ra parts <<<"$cmd"
+  for i in "${!parts[@]}"; do
+    case "${parts[$i]}" in
+      --body-file|--notes-file|--file|-F) bodyfile="${parts[$((i + 1))]}" ;;
+      --body-file=*|--notes-file=*|--file=*) bodyfile="${parts[$i]#*=}" ;;
+      *) continue ;;
+    esac
+    bodyfile="${bodyfile%\"}"; bodyfile="${bodyfile#\"}"
+    bodyfile="${bodyfile%\'}"; bodyfile="${bodyfile#\'}"
+    [ -f "$bodyfile" ] || continue
+    if grep -qiE "$attribution" "$bodyfile"; then
+      deny "The body file '$bodyfile' carries AI attribution. Nothing published from this machine does: not commits, PR bodies, comments, release notes or issues. Strip it from the file and run the command again."
+    fi
+  done
 fi
 
 # --- 2. destructive commands -------------------------------------------
