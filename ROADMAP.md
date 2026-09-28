@@ -48,6 +48,7 @@
 - [ ] Git commit message templates
 - [x] `delta` for syntax-highlighted git diffs
 - [ ] `lazygit` TUI configuration
+- [x] Tracked `~/.config` entries under `config/` (starting with Zellij)
 
 ### Infrastructure & Cloud
 

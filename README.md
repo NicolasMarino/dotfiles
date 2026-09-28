@@ -85,7 +85,12 @@ Everything uses symlinks, so you edit files in this repo and changes apply immed
 ~/.gitconfig -> ~/Documents/git/personal/dotfiles/git/.gitconfig
 ~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/personal/dotfiles/vscode/settings.json
 ~/.config/nvim -> ~/Documents/git/personal/dotfiles/nvim
+~/.config/zellij/config.kdl -> ~/Documents/git/personal/dotfiles/config/zellij/config.kdl
 ```
+
+Any tracked file under `config/` is linked to the same path under `~/.config/`,
+and backed up first. Configs that hold secrets stay out of the repo — for
+example `~/.config/gh/hosts.yml`, which stores the GitHub CLI OAuth token.
 
 ## Useful stuff
 

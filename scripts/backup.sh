@@ -26,6 +26,12 @@ FILES_TO_BACKUP=(
 # aside has to happen in the same step that creates the symlink. scripts/nvim.sh
 # owns that backup.
 
+# Derived from the same list symlink.sh links, so the two cannot drift.
+DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
+while IFS= read -r file; do
+    FILES_TO_BACKUP+=(".config/$file")
+done < <(config_files "$DOTFILES_DIR")
+
 if [ ! -d "$BACKUP_DIR" ]; then
     mkdir -p "$BACKUP_DIR"
     print_success "Created backup directory: $BACKUP_DIR"

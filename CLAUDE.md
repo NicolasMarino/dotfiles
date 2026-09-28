@@ -10,7 +10,7 @@ A personal dotfiles repo for macOS (primary) and Windows (WIP). There is no buil
 
 ```bash
 ./install.sh                              # Full setup — idempotent, safe to re-run
-bash scripts/symlink.sh                   # Re-link zsh + git configs only
+bash scripts/symlink.sh                   # Re-link zsh, git and config/ entries only
 bash scripts/install_tools.sh             # Oh My Zsh, plugins, fnm/Node LTS, fzf keybindings
 bash scripts/vscode.sh                    # Link VS Code settings + install extensions
 bash scripts/macos.sh                     # Apply macOS defaults (prompts inside install.sh)
@@ -39,9 +39,9 @@ The install scripts themselves resolve `DOTFILES_DIR` correctly from `BASH_SOURC
 
 ### Two symlink layers, one backup list
 
-`scripts/symlink.sh` links only `.zshrc`, `.zprofile`, `.gitconfig`, `.gitignore_global`. `.zshrc` owns every PATH entry an interactive shell needs (Homebrew, `~/.local/bin`) and starts with `typeset -U path PATH`; `.zprofile` holds only login-only toolchains, each guarded by `[ -d ]`. VS Code's `settings.json` is linked separately by `scripts/vscode.sh` (into `~/Library/Application Support/Code/User/`) because it needs the `code` CLI on PATH and bails out cleanly when it isn't.
+`scripts/symlink.sh` links `.zshrc`, `.zprofile`, `.gitconfig`, `.gitignore_global`, plus every tracked file under `config/` to the same path under `~/.config/` (file by file, so apps keep writing their own state outside the repo). `.zshrc` owns every PATH entry an interactive shell needs (Homebrew, `~/.local/bin`) and starts with `typeset -U path PATH`; `.zprofile` holds only login-only toolchains, each guarded by `[ -d ]`. VS Code's `settings.json` is linked separately by `scripts/vscode.sh` (into `~/Library/Application Support/Code/User/`) because it needs the `code` CLI on PATH and bails out cleanly when it isn't.
 
-`scripts/backup.sh` has its own `FILES_TO_BACKUP` array. **Adding a symlink to `symlink.sh` without adding the same path to `backup.sh` means overwriting a user's real config with no backup.** Keep them in sync. Backups land in `~/.dotfiles_backup/` timestamped; existing symlinks are removed rather than backed up.
+`scripts/backup.sh` has its own `FILES_TO_BACKUP` array. **Adding a symlink to `symlink.sh` without adding the same path to `backup.sh` means overwriting a user's real config with no backup.** Keep them in sync. The `config/` entries are the exception: both scripts read them from `config_files` in `common.sh` (`git ls-files`, so a new file must be tracked before it is linked), so adding a file under `config/` needs no edit to either script. Never add a config that holds a credential (e.g. `gh/hosts.yml`) — this repo is public. Backups land in `~/.dotfiles_backup/` timestamped; existing symlinks are removed rather than backed up.
 
 ### Shared script conventions
 
@@ -53,7 +53,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$SCRIPT_DIR/common.sh"
 ```
 
-`scripts/common.sh` is the only shared module — it exports `print_header`, `print_success`, `print_error`, `print_warning`, `print_info`. Use those instead of raw `echo` so output stays consistent. New scripts follow the same header verbatim.
+`scripts/common.sh` is the only shared module — it exports `print_header`, `print_success`, `print_error`, `print_warning`, `print_info`. It also defines `config_files`, the single list of `config/` entries shared by `symlink.sh` and `backup.sh`. Use those instead of raw `echo` so output stays consistent. New scripts follow the same header verbatim.
 
 Idempotency is a hard requirement, not a nicety: guard every install with `command -v` / `[ ! -d ]` / `[ ! -f ]` checks, as the existing scripts do.
 

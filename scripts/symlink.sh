@@ -23,6 +23,14 @@ print_success "~/.gitconfig -> dotfiles/git/.gitconfig"
 ln -sf "$DOTFILES_DIR/git/.gitignore_global" "$HOME/.gitignore_global"
 print_success "~/.gitignore_global -> dotfiles/git/.gitignore_global"
 
+# ~/.config: linked per file, not per directory, so each app keeps writing its
+# own state files next to the tracked config instead of into this repo.
+while IFS= read -r file; do
+    mkdir -p "$(dirname "$HOME/.config/$file")"
+    ln -sf "$DOTFILES_DIR/config/$file" "$HOME/.config/$file"
+    print_success "~/.config/$file -> dotfiles/config/$file"
+done < <(config_files "$DOTFILES_DIR")
+
 echo ""
 print_success "Symlinks created"
 print_info "Changes in $DOTFILES_DIR will reflect automatically"
