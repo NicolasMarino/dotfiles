@@ -81,6 +81,40 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 print_success "Additional settings applied"
 
+# --- Touch ID for sudo ---
+print_info "Configuring Touch ID for sudo..."
+
+# sudo_local is included by /etc/pam.d/sudo and survives macOS updates, which
+# rewrite /etc/pam.d/sudo itself and would drop an edit made there.
+PAM_LOCAL="/etc/pam.d/sudo_local"
+PAM_TEMPLATE="/etc/pam.d/sudo_local.template"
+
+# Pure bash so this runs before Homebrew tools exist on a fresh machine.
+has_active_pam_tid() {
+    local line
+    [ -f "$1" ] || return 1
+    while IFS= read -r line; do
+        [[ "$line" =~ ^[[:space:]]*auth[[:space:]]+sufficient[[:space:]]+pam_tid\.so ]] && return 0
+    done < "$1"
+    return 1
+}
+
+if has_active_pam_tid "$PAM_LOCAL"; then
+    print_info "Touch ID for sudo already enabled"
+elif [ ! -f "$PAM_TEMPLATE" ]; then
+    print_info "No $PAM_TEMPLATE on this macOS version, skipping Touch ID for sudo"
+else
+    pam_content=""
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^#[[:space:]]*auth[[:space:]]+sufficient[[:space:]]+pam_tid\.so ]]; then
+            line="${line#\#}"
+        fi
+        pam_content+="$line"$'\n'
+    done < "$PAM_TEMPLATE"
+    printf '%s' "$pam_content" | sudo tee "$PAM_LOCAL" > /dev/null
+    print_success "Touch ID for sudo enabled"
+fi
+
 # --- Terminal Font Configuration ---
 print_info "Configuring terminal fonts..."
 

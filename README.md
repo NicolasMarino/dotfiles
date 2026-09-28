@@ -45,6 +45,10 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - Recommended extensions via `extensions.txt`
 - Pre-configured `settings.json` symlinked automatically
 
+**macOS (`scripts/macos.sh`)**
+- Finder, Dock and screenshot defaults
+- Touch ID for `sudo`, written to `/etc/pam.d/sudo_local` so macOS updates keep it
+
 **Homebrew**
 - Brewfile with common dev tools (git, docker, etc.)
 

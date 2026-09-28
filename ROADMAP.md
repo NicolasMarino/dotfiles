@@ -62,6 +62,7 @@
 - [x] SSH config with multiple keys/hosts management
 - [x] GPG key configuration for commit signing
 - [x] `gitleaks` pre-commit hook to prevent secret leaks
+- [x] Touch ID for `sudo` via `/etc/pam.d/sudo_local` (survives macOS updates)
 
 ---
 
