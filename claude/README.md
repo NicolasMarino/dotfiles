@@ -14,9 +14,10 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | ---- | ------- |
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
-| `statusline.sh` | Status line: model, branch, session cost, context and rate-limit budget |
+| `statusline.sh` | Status line: model, branch, cost, context vs token budget, compactions, rate-limit pace |
 | `settings.fragment.json` | The `hooks`, `statusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 54 golden inputs, both directions, plus the on-disk body-file branch |
+| `test-statusline.sh` | Golden inputs for the status line (ANSI stripped), synthetic transcripts and git repo |
 
 ## bash-guard.sh
 
@@ -73,6 +74,34 @@ no key-shaped string sits on disk for gitleaks to flag.
 `grep -qE -e "$pattern"` is not decoration. Without `-e`, the PEM pattern
 starts with `-` and `grep` reads it as an option, exits non-zero, and the check
 passes everything — silently.
+
+## Status line
+
+```
+Opus · dotfiles · ⎇ main · $1.23 · +156/-23 · api 2m
+ctx 84k/250k ███░░░░░░░ 33% · ⟲2 · 5h 60% ◆40% (3h00m) · 7d 20% ◇50% · → ~40% by reset
+```
+
+Context is measured against a personal **token budget**, not the model window:
+`input + cache_creation + cache_read` from `context_window.current_usage` (the
+same input-only sum Claude Code uses for `used_percentage`). Green under 60%,
+yellow under 80%, red with a `/compact` hint from 80%. When `current_usage` is
+null (before the first call, right after `/compact`) it falls back to the
+model-window percentage.
+
+| Env var | Default | Meaning |
+| ------- | ------- | ------- |
+| `CLAUDE_CTX_BUDGET` | `250000` | Token budget for the status line |
+
+- **Pace**: `◆40%` means more of the 5h/7d window is used than the 40% of it
+  that has elapsed; `◇` means under pace.
+- **`⟲N`**: compactions this session, `rg -c` on the transcript for
+  `"subtype":"compact_boundary"`. Dim at 1, yellow at 2, red from 3.
+- **Git**: the git dir is resolved once per session; the branch is re-read with
+  `git --no-optional-locks` only when the content of `HEAD` changes.
+
+Everything is one `jq` call per render plus, at most, an `rg -c` on the
+transcript. No network.
 
 ## What is deliberately NOT here
 
