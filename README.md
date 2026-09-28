@@ -47,6 +47,9 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 
 **macOS (`scripts/macos.sh`)**
 - Finder, Dock and screenshot defaults
+- Fast key repeat, press-and-hold off, and no auto-correct, smart quotes,
+  smart dashes, auto-capitalization or period substitution
+- Application firewall with stealth mode
 - Touch ID for `sudo`, written to `/etc/pam.d/sudo_local` so macOS updates keep it
 
 **Homebrew**

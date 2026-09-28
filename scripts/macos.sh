@@ -20,6 +20,8 @@ defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder ShowPathbar -bool true
 # Set the default search scope to the current folder (SCcf)
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
 print_success "Finder configured"
 
@@ -36,6 +38,23 @@ defaults write com.apple.dock autohide-time-modifier -float 0.5
 defaults write com.apple.dock mru-spaces -bool false
 
 print_success "Dock configured"
+
+# --- Keyboard & Text Configuration ---
+print_info "Configuring keyboard and text input..."
+
+# Fast key repeat (lower is faster; the UI minimums are 2 and 15)
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+# Repeat held keys instead of showing the accent picker (vim motions)
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+# Disable text substitutions that corrupt code and shell commands
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+
+print_success "Keyboard and text input configured"
 
 print_info "Configuring Screenshots..."
 
@@ -80,6 +99,20 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 print_success "Additional settings applied"
+
+# --- Firewall ---
+print_info "Configuring application firewall..."
+
+SOCKETFILTERFW="/usr/libexec/ApplicationFirewall/socketfilterfw"
+if [ -x "$SOCKETFILTERFW" ]; then
+    # Both flags are idempotent: setting an already-on state is a no-op.
+    sudo "$SOCKETFILTERFW" --setglobalstate on > /dev/null
+    # Stealth mode: do not answer pings or probes on closed ports
+    sudo "$SOCKETFILTERFW" --setstealthmode on > /dev/null
+    print_success "Firewall and stealth mode enabled"
+else
+    print_info "socketfilterfw not found, skipping firewall"
+fi
 
 # --- Touch ID for sudo ---
 print_info "Configuring Touch ID for sudo..."
