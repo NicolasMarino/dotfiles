@@ -35,6 +35,14 @@ expect deny run_bash 'git commit -m "feat: x" -m "Co-Authored-By: Claude <norepl
 expect deny run_bash 'git commit -m "fix: y
 
 🤖 Generated with Claude Code"'
+expect deny run_bash 'gh pr create --title x --body "done
+
+\U0001F916 Generated with Claude Code"' 'PR body: generated-with footer'
+expect deny run_bash 'gh pr create --title x --body "see https://claude.ai/code/session_017Bv"' 'PR body: session URL'
+expect deny run_bash 'gh pr comment 3 --body "Co-Authored-By: Claude"' 'PR comment: trailer'
+expect deny run_bash 'gh release create v1.0.0 --notes "ships. https://claude.ai/code/session_017Bv"' 'release notes: session URL'
+expect deny run_bash 'gh issue create --title x --body "Co-Authored-By: Claude"' 'issue body: trailer'
+expect deny run_bash 'git tag -a v1 -m "Co-Authored-By: Claude"' 'tag message: trailer'
 expect deny run_bash 'rm -rf ~'
 expect deny run_bash 'rm -rf /'
 expect deny run_bash 'rm -rf $HOME/'
@@ -53,9 +61,13 @@ expect deny run_bash 'ls -la'
 echo
 echo "== bash-guard: should ALLOW =="
 expect allow run_bash 'git commit -m "feat(hooks): add global guards"'
-expect allow run_bash 'gh pr create --body "closes #1
-
-🤖 Generated with Claude Code"'
+expect allow run_bash 'gh pr create --title x --body "a clean description"' 'PR body: nothing to hide'
+expect allow run_bash 'gh release view v1.0.0 --json body' 'reading a release is not publishing'
+expect allow run_bash 'gh pr view 5 --json body | rg -c "co-authored-by"' 'auditing a PR for the trailer is a read'
+expect allow run_bash 'gh pr list --json title' 'listing PRs is a read'
+expect allow run_bash 'gh pr diff 5' 'diffing a PR is a read'
+expect allow run_bash 'rg -n "claude.ai/code/session_" README.md' 'hunting for the leak is not the leak'
+expect allow run_bash 'rg -c "co-authored-by" *.md' 'auditing for the trailer stays allowed'
 expect allow run_bash 'rm -rf ./build'
 expect allow run_bash 'rm -rf node_modules'
 expect allow run_bash 'rm -f tmp.log'
@@ -72,6 +84,18 @@ expect allow run_bash "cat > f.sh <<'EOF'
 grep foo bar
 ls -la
 EOF" 'heredoc write whose body mentions grep/ls'
+
+echo
+echo "== bash-guard: body files on disk =="
+# The case that actually leaked. `gh` reads bodies from disk as often as from
+# the command line, so a payload-only test can never reach this branch.
+bodydir=$(mktemp -d)
+trap 'rm -rf "$bodydir"' EXIT
+printf 'a normal description\n\nhttps://claude.ai/code/session_017Bv\n' > "$bodydir/dirty.md"
+printf 'a normal description, nothing else\n' > "$bodydir/clean.md"
+expect deny run_bash "gh pr create --title x --body-file $bodydir/dirty.md" 'body file: session URL on disk'
+expect deny run_bash "gh release create v1 --notes-file $bodydir/dirty.md" 'notes file: session URL on disk'
+expect allow run_bash "gh pr create --title x --body-file $bodydir/clean.md" 'body file: clean'
 
 echo
 echo "== write-guard: should DENY =="
