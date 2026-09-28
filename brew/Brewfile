@@ -1,5 +1,6 @@
 # Taps
 tap "anomalyco/tap"
+tap "facebook/fb"
 tap "gentleman-programming/tap"
 
 # Development Essentials
@@ -64,10 +65,12 @@ brew "awscli"
 brew "docker"
 brew "docker-compose"
 brew "terraform"
+cask "gcloud-cli"
 cask "docker-desktop"
 
 # Programming Languages & Environments
 brew "go"
+brew "libpq"
 brew "openjdk@17"
 brew "pipx"
 brew "pyenv"
@@ -78,6 +81,8 @@ brew "python@3.13"
 brew "cocoapods"
 brew "xcodegen"
 brew "xcodes"
+brew "bundletool"
+brew "facebook/fb/idb-companion"
 
 # AI & AI Agents
 brew "ollama", restart_service: :changed
@@ -95,6 +100,9 @@ brew "john-jumbo"
 
 # Utilities
 brew "ffmpeg"
+brew "ffmpeg-full"
+brew "libraw"
+brew "poppler"
 brew "imagemagick"
 brew "qrencode"
 brew "yt-dlp"
@@ -108,6 +116,7 @@ cask "postman"
 cask "visual-studio-code"
 cask "warp"
 cask "ghostty"
+cask "latest"
 
 # Fonts
 cask "font-fira-code"
