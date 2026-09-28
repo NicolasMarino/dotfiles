@@ -42,6 +42,11 @@ for guard in bash-guard write-guard; do
     print_success "~/.claude/hooks/$guard.sh -> dotfiles/claude/hooks/$guard.sh"
 done
 
+# The journal hook is linked but not registered: SessionEnd also carries Orca's
+# hook, and merging a SessionEnd array from the fragment would replace it.
+ln -sf "$DOTFILES_DIR/claude/hooks/journal.py" "$CLAUDE_DIR/hooks/journal.py"
+print_success "~/.claude/hooks/journal.py -> dotfiles/claude/hooks/journal.py"
+
 for line in statusline subagent-statusline; do
     ln -sf "$DOTFILES_DIR/claude/$line.sh" "$CLAUDE_DIR/$line.sh"
     print_success "~/.claude/$line.sh -> dotfiles/claude/$line.sh"

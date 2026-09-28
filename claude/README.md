@@ -14,11 +14,26 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | ---- | ------- |
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
+| `hooks/journal.py` | `SessionEnd` — appends a journal entry to the knowledge vault for sessions that committed (see below) |
 | `statusline.sh` | Status line: model, branch, cost, context vs token budget, compactions, rate-limit pace |
 | `subagent-statusline.sh` | `subagentStatusLine`: one row per subagent, tokens vs the same budget |
 | `settings.fragment.json` | The `hooks`, `statusLine`, `subagentStatusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 54 golden inputs, both directions, plus the on-disk body-file branch |
 | `test-statusline.sh` | Golden inputs for both status lines (ANSI stripped), synthetic transcripts and git repo |
+
+## journal.py
+
+On `SessionEnd`, summarizes the session with `claude -p` into the dated file
+under `JOURNAL_VAULT` (default `~/Documents/git/knowledge/knowledge/05_Journal`).
+It only writes when the session ran `git commit` in a repo under
+`JOURNAL_REPO_ROOT` (default `~/Documents/git`, scanned two levels deep so
+`personal/dotfiles` counts). Run it on demand with `--transcript`, `--date` and
+`--dry-run`; `--allow-no-commits` covers sessions with real work but no commit.
+
+`claude.sh` links it but does not register it: the `SessionEnd` event in
+`~/.claude/settings.json` also holds Orca's hook, and merging a `SessionEnd`
+array from the fragment would replace it. Register it once by hand:
+`{"type": "command", "command": "python3 ~/.claude/hooks/journal.py", "timeout": 10}`.
 
 ## bash-guard.sh
 

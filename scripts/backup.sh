@@ -20,6 +20,7 @@ FILES_TO_BACKUP=(
     ".claude/settings.json"
     ".claude/statusline.sh"
     ".claude/subagent-statusline.sh"
+    ".claude/hooks/journal.py"
 )
 
 # ~/.config/nvim is a directory, which this loop cannot handle, and moving it
