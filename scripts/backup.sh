@@ -46,8 +46,11 @@ for file in "${FILES_TO_BACKUP[@]}"; do
     
     if [ -f "$source_file" ] || [ -L "$source_file" ]; then
         if [ -L "$source_file" ]; then
-            print_info "$file is a symlink, removing..."
-            rm "$source_file"
+            # Nothing to back up, and every linker uses `ln -sf`, which
+            # replaces it anyway. Deleting it here would leave the path empty
+            # whenever the script that owns the link (vscode.sh, claude.sh)
+            # is not run afterwards.
+            print_info "$file is a symlink, leaving it in place"
         else
             # Flatten the path: a nested source would otherwise need a
             # directory tree inside the backup dir that does not exist.
