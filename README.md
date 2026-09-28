@@ -76,6 +76,7 @@ Everything uses symlinks, so you edit files in this repo and changes apply immed
 ~/.zshrc -> ~/Documents/git/personal/dotfiles/zsh/.zshrc
 ~/.gitconfig -> ~/Documents/git/personal/dotfiles/git/.gitconfig
 ~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/personal/dotfiles/vscode/settings.json
+~/.config/nvim -> ~/Documents/git/personal/dotfiles/nvim
 ```
 
 ## Useful stuff
@@ -97,6 +98,17 @@ mkcd mydir          # make directory and cd into it
 extract file.zip    # extract any archive
 whoisport 3000      # see what's running on port 3000
 killport 3000       # kill process on that port
+```
+
+**Reviewing a diff in Neovim** (LazyVim, `nvim/`):
+```
+<leader>gv    diffview: file panel + side-by-side diff of the working tree
+<leader>gV    same, but the whole branch against origin
+<leader>gr    repo commit history
+<leader>gq    close it
+<leader>gs    LazyVim picker: list of changed files
+<leader>gd    LazyVim picker: every hunk in the repo
+]h  [h        jump between hunks in the current file (gitsigns)
 ```
 
 **fzf shortcuts:**

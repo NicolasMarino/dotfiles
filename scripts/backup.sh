@@ -21,6 +21,10 @@ FILES_TO_BACKUP=(
     ".claude/subagent-statusline.sh"
 )
 
+# ~/.config/nvim is a directory, which this loop cannot handle, and moving it
+# aside has to happen in the same step that creates the symlink. scripts/nvim.sh
+# owns that backup.
+
 if [ ! -d "$BACKUP_DIR" ]; then
     mkdir -p "$BACKUP_DIR"
     print_success "Created backup directory: $BACKUP_DIR"
