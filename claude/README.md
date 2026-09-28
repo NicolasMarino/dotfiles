@@ -15,8 +15,11 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
 | `statusline.sh` | Status line: model, branch, session cost, context and rate-limit budget |
-| `settings.fragment.json` | The `hooks` and `statusLine` blocks merged into `~/.claude/settings.json` |
+| `settings.fragment.json` | The `hooks`, `statusLine` and `subagentPromptCacheTtl` keys merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 35 golden inputs, both directions |
+| `gentle-ai-overrides/` | Local SDD rules that outrank gentle-ai's own, and the reconciler that keeps them alive |
+| `workflows/` | Scripts for the `Workflow` tool, symlinked into `~/.claude/workflows/` |
+| `test-overrides.sh` | 22 golden inputs for the reconciler, run against a throwaway `CLAUDE_DIR` |
 
 ## bash-guard.sh
 
@@ -65,10 +68,16 @@ passes everything — silently.
 ## What is deliberately NOT here
 
 Everything under `~/.claude` carrying a `<!-- gentle-ai:... -->` marker —
-`skills/`, `agents/`, `commands/`, `output-styles/`, and the global
-`CLAUDE.md` — is generated and owned by `gentle-ai sync`. Tracking it here
-would vendor a package manager's output and fight the next sync. The Brewfile
-declares `gentleman-programming/tap/gentle-ai`; the tool owns its own files.
+`skills/`, `agents/`, `commands/`, `output-styles/`, and the marked regions of
+the global `CLAUDE.md` — is generated and owned by `gentle-ai sync`. Tracking
+it here would vendor a package manager's output and fight the next sync. The
+Brewfile declares `gentleman-programming/tap/gentle-ai`; the tool owns its own
+files.
+
+The exception is [`gentle-ai-overrides/`](#gentle-ai-overrides), which tracks
+only what gentle-ai provably does not own: the region of `CLAUDE.md` past its
+last marker, plus one frontmatter key the reconciler re-applies after each
+sync. Nothing generated is copied into this repo.
 
 Session state (`projects/`, `sessions/`, `history.jsonl`, `security/`) is
 neither config nor portable.
@@ -102,3 +111,73 @@ not pass.
 Remove its entry from `settings.fragment.json` and rerun `scripts/claude.sh`, or
 edit `~/.claude/settings.json` directly for a one-machine change. Hooks reload
 mid-session, so the change takes effect on the next tool call.
+
+## gentle-ai-overrides/
+
+`gentle-ai` owns `~/.claude/skills/`, `~/.claude/agents/` and most of
+`~/.claude/CLAUDE.md`. This directory is the one seam where local rules can
+outrank it without forking the tool.
+
+### Why it can work at all
+
+`gentle-ai sync` rewrites `CLAUDE.md` through
+`filemerge.InjectMarkdownSection`, which rebuilds the file as
+`before + block + after` for one `<!-- gentle-ai:NAME -->` region at a time.
+Anything outside every marker is never touched. So `CLAUDE.local-overrides.md`
+is appended past the last marker under its own
+`<!-- dotfiles:local-sdd-overrides -->` sentinels, and survives on its own.
+
+Agent definitions get no such courtesy: every file in gentle-ai's embed is
+overwritten wholesale on each install (`WriteFileAtomic`, no merge). The
+`memory: project` key on the reviewer agents therefore has to be re-applied,
+which is the reconciler's second job.
+
+### The rules
+
+`CLAUDE.local-overrides.md` carries L1–L7. They come from measuring 10 archived
+SDD changes in `reels-lab`, where the pipeline found zero implementation
+defects by code review: every FAIL was a missing test, and the one change that
+needed six remediation rounds was a single requirement that never enumerated
+its entry points. The rules push work upstream — test tasks per scenario,
+entry points per validation requirement — instead of paying for it in
+verification rounds. The raw table is in the knowledge vault under
+`03_Resources/Tech/IA Engineering/`.
+
+### Keeping them alive
+
+```bash
+gentle-ai-overrides/reconcile.sh           # apply, print what changed
+gentle-ai-overrides/reconcile.sh --quiet   # apply, print only on change
+gentle-ai-overrides/reconcile.sh --check   # report drift, exit 1, change nothing
+```
+
+Three things run it, so it should never need running by hand:
+
+- `scripts/claude.sh`, on install.
+- The `gentle-ai` wrapper in `zsh/functions.zsh`, after `install`, `sync` and
+  `upgrade` — the only commands that cause drift. It forwards every argument
+  and preserves the exit code.
+- `--check` in CI or a pre-commit hook, if drift should ever fail a build.
+
+It refuses to touch a `CLAUDE.md` whose gentle-ai markers are unbalanced: that
+means a sync was interrupted, and splicing into a half-written file would put
+the block inside a region about to be rewritten.
+
+## workflows/
+
+`~/.claude/workflows/` holds scripts for the `Workflow` tool, which runs a DAG
+of agents deterministically instead of leaving the orchestration to the model.
+gentle-ai never writes there, so these are plain symlinks.
+
+`sdd-chain.js` encodes the SDD pipeline: exploration fanned out across three
+scoped readers, spec and design in parallel (neither depends on the other —
+both read only the proposal), a task schema that forces every work unit to
+declare the files it writes, apply and verify pipelined per unit, and archive
+only at zero CRITICALs. It proves the file partition before running writers in
+parallel and degrades any overlapping units back to serial. Its verify schema
+requires each CRITICAL to be classified `coverage`, `spec_ambiguity` or
+`implementation`, which is what keeps the measurement behind L1-L7 current
+instead of a one-off.
+
+Running a workflow needs explicit opt-in per invocation; installing the script
+does not run anything.

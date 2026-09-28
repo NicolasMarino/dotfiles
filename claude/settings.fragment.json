@@ -39,5 +39,6 @@
     "type": "command",
     "command": "~/.claude/statusline.sh",
     "refreshInterval": 30
-  }
+  },
+  "subagentPromptCacheTtl": "1h"
 }

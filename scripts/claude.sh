@@ -13,6 +13,11 @@
 # agents/, commands/, output-styles/, CLAUDE.md — is owned by `gentle-ai sync`
 # and must stay out of here. The Brewfile declares the tool; the tool owns its
 # own output.
+#
+# The one seam is claude/gentle-ai-overrides/: gentle-ai replaces only the
+# regions between its own markers in CLAUDE.md, so a block appended past the
+# last one is ours to keep. See that directory's reconcile.sh for the rule and
+# for why the reviewer agents need re-patching instead.
 
 set -e
 
@@ -44,6 +49,16 @@ done
 
 ln -sf "$DOTFILES_DIR/claude/statusline.sh" "$CLAUDE_DIR/statusline.sh"
 print_success "~/.claude/statusline.sh -> dotfiles/claude/statusline.sh"
+
+# Workflow scripts for the Workflow tool. Claude Code reads ~/.claude/workflows/,
+# gentle-ai never writes there, so a plain symlink is enough.
+print_info "Linking workflows..."
+mkdir -p "$CLAUDE_DIR/workflows"
+for wf in "$DOTFILES_DIR"/claude/workflows/*.js; do
+    [ -e "$wf" ] || continue
+    ln -sfn "$wf" "$CLAUDE_DIR/workflows/$(basename "$wf")"
+    print_success "~/.claude/workflows/$(basename "$wf") -> dotfiles/claude/workflows/$(basename "$wf")"
+done
 
 # Merge the fragment into the existing settings, keeping every other key.
 [ -f "$SETTINGS" ] || echo '{}' > "$SETTINGS"
@@ -86,11 +101,26 @@ jq --slurpfile f "$FRAGMENT" '
 command mv -f "$SETTINGS.tmp" "$SETTINGS"
 print_success "Settings merged into ~/.claude/settings.json (backup at $(basename "$BACKUP"))"
 
+# Local SDD overrides. These live where gentle-ai does not reach — the CLAUDE.md
+# region outside every gentle-ai marker — except the reviewer agents, which
+# gentle-ai overwrites on each install and the reconciler re-patches.
+print_info "Reconciling local SDD overrides..."
+bash "$DOTFILES_DIR/claude/gentle-ai-overrides/reconcile.sh" --quiet
+print_success "Local SDD overrides in place"
+
 # Golden-input tests: a guard that silently stops matching is worse than none.
 print_info "Running guard tests..."
 if bash "$DOTFILES_DIR/claude/test-hooks.sh" > /dev/null 2>&1; then
     print_success "All guard tests pass"
 else
     print_error "Guard tests failed — run claude/test-hooks.sh to see which case"
+    exit 1
+fi
+
+print_info "Running override tests..."
+if bash "$DOTFILES_DIR/claude/test-overrides.sh" > /dev/null 2>&1; then
+    print_success "All override tests pass"
+else
+    print_error "Override tests failed — run claude/test-overrides.sh to see which case"
     exit 1
 fi

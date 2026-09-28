@@ -51,6 +51,9 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 **Claude Code**
 - Global `PreToolUse` guard hooks (secret scanning, destructive-command
   blocking) merged into `~/.claude/settings.json` — see [claude/README.md](claude/README.md)
+- Local SDD rules that outrank `gentle-ai`'s own, with a reconciler that
+  restores them after every sync
+- Workflow scripts for the `Workflow` tool, symlinked into `~/.claude/workflows/`
 
 #### Installing a new tool
 ```bash
