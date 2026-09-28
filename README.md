@@ -45,6 +45,13 @@ This will install Homebrew, packages from the Brewfile, Oh My Zsh with plugins, 
 - Recommended extensions via `extensions.txt`
 - Pre-configured `settings.json` symlinked automatically
 
+**macOS (`scripts/macos.sh`)**
+- Finder, Dock and screenshot defaults
+- Fast key repeat, press-and-hold off, and no auto-correct, smart quotes,
+  smart dashes, auto-capitalization or period substitution
+- Application firewall with stealth mode
+- Touch ID for `sudo`, written to `/etc/pam.d/sudo_local` so macOS updates keep it
+
 **Homebrew**
 - Brewfile with common dev tools (git, docker, etc.)
 
@@ -74,10 +81,28 @@ Everything uses symlinks, so you edit files in this repo and changes apply immed
 
 ```bash
 ~/.zshrc -> ~/Documents/git/personal/dotfiles/zsh/.zshrc
+~/.zprofile -> ~/Documents/git/personal/dotfiles/zsh/.zprofile
 ~/.gitconfig -> ~/Documents/git/personal/dotfiles/git/.gitconfig
 ~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/personal/dotfiles/vscode/settings.json
 ~/.config/nvim -> ~/Documents/git/personal/dotfiles/nvim
+~/.config/zellij/config.kdl -> ~/Documents/git/personal/dotfiles/config/zellij/config.kdl
 ```
+
+Any tracked file under `config/` is linked to the same path under `~/.config/`,
+and backed up first. Configs that hold secrets stay out of the repo — for
+example `~/.config/gh/hosts.yml`, which stores the GitHub CLI OAuth token.
+
+## Health check
+
+```bash
+bash scripts/doctor.sh
+```
+
+Read-only: it changes nothing. It flags managed symlinks that are missing,
+replaced by a regular file or dangling (exit 1), and warns about missing
+`git/.gitconfig.{personal,work}`, duplicate `PATH` entries, Brewfile drift,
+Touch ID for `sudo`, a missing `~/.ssh/config` and an uninstalled pre-commit
+hook.
 
 ## Useful stuff
 

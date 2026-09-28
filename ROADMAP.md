@@ -48,6 +48,7 @@
 - [ ] Git commit message templates
 - [x] `delta` for syntax-highlighted git diffs
 - [ ] `lazygit` TUI configuration
+- [x] Tracked `~/.config` entries under `config/` (starting with Zellij)
 
 ### Infrastructure & Cloud
 
@@ -62,6 +63,8 @@
 - [x] SSH config with multiple keys/hosts management
 - [x] GPG key configuration for commit signing
 - [x] `gitleaks` pre-commit hook to prevent secret leaks
+- [x] Application firewall and stealth mode enabled by `scripts/macos.sh`
+- [x] Touch ID for `sudo` via `/etc/pam.d/sudo_local` (survives macOS updates)
 
 ---
 
@@ -72,4 +75,5 @@
 - [x] GitHub Actions for linting shell scripts (`shellcheck`)
 - [x] Automated testing of installation scripts (parse + phase-path smoke test, guard-hook golden tests)
 - [ ] Brewfile validation workflow
+- [x] `scripts/doctor.sh` read-only health check (links, PATH, Brewfile drift)
 - [ ] Automated backup script with rotation

@@ -30,3 +30,14 @@ print_warning() {
 print_info() {
     echo -e "${BLUE}ℹ${NC} $1"
 }
+
+# Prints each tracked file under config/, relative to config/. Each one is
+# linked to ~/.config/<same path>. symlink.sh and backup.sh both read this list,
+# so a new config file cannot be linked without also being backed up. git
+# rather than fd because backup.sh runs before Homebrew exists on a fresh Mac,
+# and ls-files skips untracked noise such as .DS_Store.
+config_files() {
+    git -C "$1" ls-files -- config | while IFS= read -r path; do
+        echo "${path#config/}"
+    done
+}

@@ -1,3 +1,7 @@
+# Keep PATH entries unique: .zprofile, brew shellenv and nested shells each
+# prepend again, which left every Homebrew dir listed several times.
+typeset -U path PATH
+
 # Oh My Zsh Configuration
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="" # Disabled to use Starship

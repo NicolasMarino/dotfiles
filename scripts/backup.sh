@@ -13,6 +13,7 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 # Paths are relative to $HOME and may contain slashes or spaces.
 FILES_TO_BACKUP=(
     ".zshrc"
+    ".zprofile"
     ".gitconfig"
     ".gitignore_global"
     "Library/Application Support/Code/User/settings.json"
@@ -24,6 +25,12 @@ FILES_TO_BACKUP=(
 # ~/.config/nvim is a directory, which this loop cannot handle, and moving it
 # aside has to happen in the same step that creates the symlink. scripts/nvim.sh
 # owns that backup.
+
+# Derived from the same list symlink.sh links, so the two cannot drift.
+DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
+while IFS= read -r file; do
+    FILES_TO_BACKUP+=(".config/$file")
+done < <(config_files "$DOTFILES_DIR")
 
 if [ ! -d "$BACKUP_DIR" ]; then
     mkdir -p "$BACKUP_DIR"
