@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Golden-input tests for statusline.sh.
+# Golden-input tests for statusline.sh and subagent-statusline.sh.
 # Fixtures are inline; transcripts and git repos are synthetic and live in a
 # throwaway dir. Assertions match substrings with ANSI colour codes stripped,
 # plus a few colour checks on the raw output where colour is the behaviour.
@@ -7,6 +7,7 @@
 
 CLAUDE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SL="$CLAUDE_DIR/statusline.sh"
+SUB="$CLAUDE_DIR/subagent-statusline.sh"
 fail=0
 
 WORK=$(mktemp -d)
@@ -140,6 +141,30 @@ out=$(printf '{"session_id":"s1","workspace":{"current_dir":"%s"}}' "$repo" | re
 check 'branch cache invalidated when HEAD changes' "$out" '⎇ feat/budget'
 out=$(printf '{"session_id":"s1","workspace":{"current_dir":"%s"}}' "$WORK" | render)
 check 'non-repo shows no branch' "$out" '⎇' absent
+
+echo
+echo "== subagent-statusline =="
+sub_fixture='{"columns":60,"tasks":[
+  {"id":"a1","name":"explorer","type":"Explore","tokenCount":84000,"description":"Map the statusline code"},
+  {"id":"a2","name":"writer","tokenCount":210000,"description":"Implement the budget change across every file that needs it"},
+  {"id":"a3","name":"runaway","tokenCount":300000},
+  {"id":"a4","name":"pending"}
+]}'
+raw=$(printf '%s' "$sub_fixture" | "$SUB")
+out=$(printf '%s' "$raw" | jq -r '"\(.id)=\(.content)"' | strip)
+check 'one JSON line per task with tokens' "$(printf '%s\n' "$raw" | wc -l | tr -d ' ')" '3'
+check 'tokens against budget' "$out" 'a1=explorer 84k/250k 33% · Map the statusline code'
+check 'description truncated to columns' "$out" '…'
+check 'past budget shows >100%' "$out" 'a3=runaway 300k/250k 120%'
+check 'task without tokenCount keeps default row' "$out" 'a4=' absent
+content() { printf '%s' "$raw" | jq -r --arg id "$1" 'select(.id == $id) | .content'; }
+check 'under 60% is green' "$(content a1)" "${GREEN}84k"
+check '80%+ is red' "$(content a2)" "${RED}210k"
+check 'past budget is red' "$(content a3)" "${RED}300k"
+out=$(printf '{"tasks":[{"id":"x","name":"n","tokenCount":50000}]}' | CLAUDE_CTX_BUDGET=100000 "$SUB" | jq -r .content | strip)
+check 'subagent CLAUDE_CTX_BUDGET override' "$out" 'n 50k/100k 50%'
+out=$(printf '{}' | "$SUB")
+check 'no tasks, no output' "[$out]" '[]'
 
 echo
 if [ $fail -eq 0 ]; then echo "ALL PASS"; else echo "FAILURES ABOVE"; fi

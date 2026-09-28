@@ -100,5 +100,5 @@ When changing the shape of a conditional git config, update the corresponding `.
 `.github/workflows/ci.yml` runs three jobs on push and PR:
 
 - **lint** — `pre-commit run --all-files`, the same pinned config as local, so CI and a dev machine cannot disagree about what passes.
-- **guards** — `claude/test-hooks.sh` and `claude/test-statusline.sh`, golden-input tests for the two `PreToolUse` guards and the status line. They run against the tracked `claude/` scripts directly (not the `~/.claude` symlinks) so they work on a runner with no install.
+- **guards** — `claude/test-hooks.sh` and `claude/test-statusline.sh`, golden-input tests for the two `PreToolUse` guards and both status lines. They run against the tracked `claude/` scripts directly (not the `~/.claude` symlinks) so they work on a runner with no install.
 - **installer** — `bash -n` over every script, plus a check that every `scripts/*.sh` path `install.sh` invokes actually exists. That last one exists because adding a phase to `install.sh` while leaving the script untracked breaks a fresh clone under `set -e`.

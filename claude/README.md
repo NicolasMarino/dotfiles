@@ -15,9 +15,10 @@ Installed by `scripts/claude.sh`, which is called from `install.sh`.
 | `hooks/bash-guard.sh` | `PreToolUse` on `Bash` — commit attribution, destructive commands, CLI preference |
 | `hooks/write-guard.sh` | `PreToolUse` on `Edit\|Write\|MultiEdit` — credential scan |
 | `statusline.sh` | Status line: model, branch, cost, context vs token budget, compactions, rate-limit pace |
-| `settings.fragment.json` | The `hooks`, `statusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
+| `subagent-statusline.sh` | `subagentStatusLine`: one row per subagent, tokens vs the same budget |
+| `settings.fragment.json` | The `hooks`, `statusLine`, `subagentStatusLine` and `attribution` blocks merged into `~/.claude/settings.json` |
 | `test-hooks.sh` | 54 golden inputs, both directions, plus the on-disk body-file branch |
-| `test-statusline.sh` | Golden inputs for the status line (ANSI stripped), synthetic transcripts and git repo |
+| `test-statusline.sh` | Golden inputs for both status lines (ANSI stripped), synthetic transcripts and git repo |
 
 ## bash-guard.sh
 
@@ -75,7 +76,7 @@ no key-shaped string sits on disk for gitleaks to flag.
 starts with `-` and `grep` reads it as an option, exits non-zero, and the check
 passes everything — silently.
 
-## Status line
+## Status lines
 
 ```
 Opus · dotfiles · ⎇ main · $1.23 · +156/-23 · api 2m
@@ -87,11 +88,11 @@ Context is measured against a personal **token budget**, not the model window:
 same input-only sum Claude Code uses for `used_percentage`). Green under 60%,
 yellow under 80%, red with a `/compact` hint from 80%. When `current_usage` is
 null (before the first call, right after `/compact`) it falls back to the
-model-window percentage.
+model-window percentage. The subagent rows use the same budget and colours.
 
 | Env var | Default | Meaning |
 | ------- | ------- | ------- |
-| `CLAUDE_CTX_BUDGET` | `250000` | Token budget for the status line |
+| `CLAUDE_CTX_BUDGET` | `250000` | Token budget for the main and subagent status lines |
 
 - **Pace**: `◆40%` means more of the 5h/7d window is used than the 40% of it
   that has elapsed; `◇` means under pace.

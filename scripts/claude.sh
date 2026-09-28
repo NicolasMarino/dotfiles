@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Installs the hand-written Claude Code config: the PreToolUse guard hooks and
-# the status line.
+# the main and subagent status lines.
 #
 # ~/.claude/settings.json is deliberately NOT tracked in this repo: its
 # autoMode.environment block records infrastructure details about private
@@ -42,8 +42,10 @@ for guard in bash-guard write-guard; do
     print_success "~/.claude/hooks/$guard.sh -> dotfiles/claude/hooks/$guard.sh"
 done
 
-ln -sf "$DOTFILES_DIR/claude/statusline.sh" "$CLAUDE_DIR/statusline.sh"
-print_success "~/.claude/statusline.sh -> dotfiles/claude/statusline.sh"
+for line in statusline subagent-statusline; do
+    ln -sf "$DOTFILES_DIR/claude/$line.sh" "$CLAUDE_DIR/$line.sh"
+    print_success "~/.claude/$line.sh -> dotfiles/claude/$line.sh"
+done
 
 # Merge the fragment into the existing settings, keeping every other key.
 [ -f "$SETTINGS" ] || echo '{}' > "$SETTINGS"
