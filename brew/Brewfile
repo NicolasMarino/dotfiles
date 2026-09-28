@@ -10,9 +10,13 @@ brew "curl"
 brew "tree"
 
 # Node.js & Version Management
-# No system node here on purpose: fnm owns the toolchain and puts the active
-# version on PATH. A linked Homebrew node would shadow it depending on order.
+# fnm owns the interactive node on PATH. node@24 is keg-only and stays
+# unlinked: it exists for launchd daemons (e.g. the openclaw gateway), which
+# point at /opt/homebrew/opt/node@24/bin/node. That path survives
+# `brew upgrade` and never changes when `fnm default` does. Never
+# `brew link node@24` — it would shadow fnm depending on PATH order.
 brew "fnm"
+brew "node@24"
 
 # Shell & Utilities
 brew "bash"
