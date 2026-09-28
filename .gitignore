@@ -12,3 +12,6 @@ git/.gitconfig.personal
 # Agent tooling working dirs (worktrees, caches, local settings)
 .claude/
 .atl/
+
+# zsh completion cache (written next to .zshrc when ZDOTDIR points here)
+.zcompdump*

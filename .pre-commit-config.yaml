@@ -8,4 +8,4 @@ repos:
     hooks:
       - id: shellcheck
         args: ['--exclude=SC1091,SC2088']
-        exclude: '\.zsh(rc)?$'
+        exclude: '\.z(sh(rc)?|profile)$'

@@ -13,6 +13,9 @@ print_info "Creating symlinks..."
 ln -sf "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 print_success "~/.zshrc -> dotfiles/zsh/.zshrc"
 
+ln -sf "$DOTFILES_DIR/zsh/.zprofile" "$HOME/.zprofile"
+print_success "~/.zprofile -> dotfiles/zsh/.zprofile"
+
 # git
 ln -sf "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
 print_success "~/.gitconfig -> dotfiles/git/.gitconfig"

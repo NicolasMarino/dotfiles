@@ -13,6 +13,7 @@ TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 # Paths are relative to $HOME and may contain slashes or spaces.
 FILES_TO_BACKUP=(
     ".zshrc"
+    ".zprofile"
     ".gitconfig"
     ".gitignore_global"
     "Library/Application Support/Code/User/settings.json"

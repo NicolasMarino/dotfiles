@@ -39,7 +39,7 @@ The install scripts themselves resolve `DOTFILES_DIR` correctly from `BASH_SOURC
 
 ### Two symlink layers, one backup list
 
-`scripts/symlink.sh` links only `.zshrc`, `.gitconfig`, `.gitignore_global`. VS Code's `settings.json` is linked separately by `scripts/vscode.sh` (into `~/Library/Application Support/Code/User/`) because it needs the `code` CLI on PATH and bails out cleanly when it isn't.
+`scripts/symlink.sh` links only `.zshrc`, `.zprofile`, `.gitconfig`, `.gitignore_global`. `.zshrc` owns every PATH entry an interactive shell needs (Homebrew, `~/.local/bin`) and starts with `typeset -U path PATH`; `.zprofile` holds only login-only toolchains, each guarded by `[ -d ]`. VS Code's `settings.json` is linked separately by `scripts/vscode.sh` (into `~/Library/Application Support/Code/User/`) because it needs the `code` CLI on PATH and bails out cleanly when it isn't.
 
 `scripts/backup.sh` has its own `FILES_TO_BACKUP` array. **Adding a symlink to `symlink.sh` without adding the same path to `backup.sh` means overwriting a user's real config with no backup.** Keep them in sync. Backups land in `~/.dotfiles_backup/` timestamped; existing symlinks are removed rather than backed up.
 
@@ -87,7 +87,7 @@ When changing the shape of a conditional git config, update the corresponding `.
 `.pre-commit-config.yaml` runs:
 
 - **gitleaks** — secret scanning. This repo tracks git configs and shell rc files, so a leaked token is a live risk; never work around a gitleaks failure.
-- **shellcheck** — with `--exclude=SC1091,SC2088` and `exclude: '\.zsh(rc)?$'`. Zsh files are deliberately unlinted because ShellCheck can't parse zsh. That means `zsh/.zshrc`, `zsh/aliases.zsh`, and `zsh/functions.zsh` get **no** static checking — review them by hand and test with `source ~/.zshrc`.
+- **shellcheck** — with `--exclude=SC1091,SC2088` and `exclude: '\.z(sh(rc)?|profile)$'`. Zsh files are deliberately unlinted because ShellCheck can't parse zsh. That means `zsh/.zshrc`, `zsh/.zprofile`, `zsh/aliases.zsh`, and `zsh/functions.zsh` get **no** static checking — review them by hand and test with `source ~/.zshrc`.
 
 `.editorconfig` governs indentation: 4 spaces for `*.{sh,zsh,bash}`, 2 for web/YAML. `.prettierrc` is a global export for other projects, not applied to this repo.
 

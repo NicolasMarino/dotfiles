@@ -74,6 +74,7 @@ Everything uses symlinks, so you edit files in this repo and changes apply immed
 
 ```bash
 ~/.zshrc -> ~/Documents/git/personal/dotfiles/zsh/.zshrc
+~/.zprofile -> ~/Documents/git/personal/dotfiles/zsh/.zprofile
 ~/.gitconfig -> ~/Documents/git/personal/dotfiles/git/.gitconfig
 ~/Library/Application Support/Code/User/settings.json -> ~/Documents/git/personal/dotfiles/vscode/settings.json
 ~/.config/nvim -> ~/Documents/git/personal/dotfiles/nvim
