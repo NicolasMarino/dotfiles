@@ -92,6 +92,18 @@ Any tracked file under `config/` is linked to the same path under `~/.config/`,
 and backed up first. Configs that hold secrets stay out of the repo — for
 example `~/.config/gh/hosts.yml`, which stores the GitHub CLI OAuth token.
 
+## Health check
+
+```bash
+bash scripts/doctor.sh
+```
+
+Read-only: it changes nothing. It flags managed symlinks that are missing,
+replaced by a regular file or dangling (exit 1), and warns about missing
+`git/.gitconfig.{personal,work}`, duplicate `PATH` entries, Brewfile drift,
+Touch ID for `sudo`, a missing `~/.ssh/config` and an uninstalled pre-commit
+hook.
+
 ## Useful stuff
 
 **Git aliases:**

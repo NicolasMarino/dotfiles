@@ -15,6 +15,7 @@ bash scripts/install_tools.sh             # Oh My Zsh, plugins, fnm/Node LTS, fz
 bash scripts/vscode.sh                    # Link VS Code settings + install extensions
 bash scripts/macos.sh                     # Apply macOS defaults (prompts inside install.sh)
 bash scripts/orca.sh [--apply|--uninstall] # Hourly launchd job releasing settled Orca workers (dry-run by default)
+bash scripts/doctor.sh                    # Read-only health check: links, PATH, Brewfile drift, Touch ID (not run by install.sh)
 brew bundle --file=brew/Brewfile          # Sync packages after editing the Brewfile
 
 pre-commit install                        # One-time: activate gitleaks + shellcheck hooks

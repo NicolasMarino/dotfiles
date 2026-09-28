@@ -75,4 +75,5 @@
 - [x] GitHub Actions for linting shell scripts (`shellcheck`)
 - [x] Automated testing of installation scripts (parse + phase-path smoke test, guard-hook golden tests)
 - [ ] Brewfile validation workflow
+- [x] `scripts/doctor.sh` read-only health check (links, PATH, Brewfile drift)
 - [ ] Automated backup script with rotation
