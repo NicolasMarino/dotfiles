@@ -48,5 +48,6 @@
   "subagentStatusLine": {
     "type": "command",
     "command": "~/.claude/subagent-statusline.sh"
-  }
+  },
+  "autoCompactWindow": 250000
 }

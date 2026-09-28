@@ -104,6 +104,10 @@ model-window percentage. The subagent rows use the same budget and colours.
 Everything is one `jq` call per render plus, at most, an `rg -c` on the
 transcript. No network.
 
+The fragment also sets `autoCompactWindow` to `250000`, so the main session
+compacts on its own at the same budget. It is a token count (100k–1M, capped at
+the model window), not a fraction of it.
+
 ## What is deliberately NOT here
 
 Everything under `~/.claude` carrying a `<!-- gentle-ai:... -->` marker —
