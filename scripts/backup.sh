@@ -18,6 +18,7 @@ FILES_TO_BACKUP=(
     "Library/Application Support/Code/User/settings.json"
     ".claude/settings.json"
     ".claude/statusline.sh"
+    ".claude/subagent-statusline.sh"
 )
 
 if [ ! -d "$BACKUP_DIR" ]; then

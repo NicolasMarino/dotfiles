@@ -22,12 +22,17 @@ jobs:
       - uses: pre-commit/action@v3.0.1
 
   guards:
-    name: Claude guard hooks
+    name: Claude guard hooks and status lines
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Run golden-input tests
         run: bash claude/test-hooks.sh
+      # The compaction counter shells out to rg, which the runner lacks.
+      - name: Install ripgrep
+        run: sudo apt-get update -q && sudo apt-get install -y ripgrep
+      - name: Run status line tests
+        run: bash claude/test-statusline.sh
 
   installer:
     name: Installer smoke test

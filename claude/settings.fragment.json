@@ -44,5 +44,10 @@
     "type": "command",
     "command": "~/.claude/statusline.sh",
     "refreshInterval": 30
-  }
+  },
+  "subagentStatusLine": {
+    "type": "command",
+    "command": "~/.claude/subagent-statusline.sh"
+  },
+  "autoCompactWindow": 250000
 }
