@@ -12,6 +12,9 @@ plugins=(
   zsh-syntax-highlighting
 )
 
+# Never prompt for updates: the prompt eats the first keystroke of commands typed by Orca.
+zstyle ':omz:update' mode reminder
+
 source $ZSH/oh-my-zsh.sh
 
 # Homebrew PATH (auto-detect architecture)
