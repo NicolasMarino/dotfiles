@@ -6,11 +6,10 @@ typeset -U path PATH
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="" # Disabled to use Starship
 
+# brew, node and npm plugins dropped: aliases.zsh already defines those
+# aliases, and the plugins' versions were being silently overridden by it.
 plugins=(
   macos
-  brew
-  node
-  npm
   docker
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -60,8 +59,16 @@ export FZF_DEFAULT_OPTS='
 '
 
 # Environment Variables
-export EDITOR='code --wait'
-export VISUAL='code --wait'
+# VS Code locally; over SSH, or where `code` is missing, a GUI editor
+# cannot open, so git and CLI edits would hang or fail.
+if [[ -z "$SSH_TTY" ]] && command -v code &> /dev/null; then
+    export EDITOR='code --wait'
+elif command -v nvim &> /dev/null; then
+    export EDITOR='nvim'
+else
+    export EDITOR='vim'
+fi
+export VISUAL="$EDITOR"
 export LANG='en_US.UTF-8'
 export LESS='-R'
 export HOMEBREW_NO_ANALYTICS=1
